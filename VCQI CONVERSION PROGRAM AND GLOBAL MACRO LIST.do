@@ -545,9 +545,9 @@ global YEARS_SINCE_LAST_TT 		mn11
 ********************************************************************************
 ********************************************************************************
 * Delete any existing combined dataset files
-capture confirm file "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset.dta" 
+capture confirm file "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset.dta" 
 if !_rc {
-	erase "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset.dta" 
+	erase "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset.dta" 
 }
 
 set more off
