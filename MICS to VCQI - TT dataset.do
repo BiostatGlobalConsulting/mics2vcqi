@@ -16,17 +16,17 @@ set more off
 
 if $TT_SURVEY==1 {
 	* Pull in mics combined dataset and save as new dataset for VCQI
-	use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
 	* cd to OUTPUT local
 	cd "$OUTPUT_FOLDER"
 
-	save mics_${MICS_NUM}_to_VCQI_TT, replace 
+	save MICS_${MICS_NUM}_to_VCQI_TT, replace 
 
 
 	* Only keep the people who participated in the survey 
-	keep if mics_${MICS_NUM}_tt_survey==1 
+	keep if MICS_${MICS_NUM}_tt_survey==1 
 	
 	* Only keep if the interview was completed
 	keep if HM38==4
@@ -39,7 +39,7 @@ if $TT_SURVEY==1 {
 
 	* Save dataset for each SIA survey
 	foreach v in `=lower("${SIA_LIST}")' {
-		use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_to_VCQI_TT", clear
-		save mics_${MICS_NUM}_VCQI_TT_SIA_`=upper("`v'")', replace
+		use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_to_VCQI_TT", clear
+		save MICS_${MICS_NUM}_VCQI_TT_SIA_`=upper("`v'")', replace
 	}
 }

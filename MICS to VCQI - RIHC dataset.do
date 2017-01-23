@@ -16,17 +16,17 @@ set more off
 
 if $RIHC_SURVEY==1 {
 	* Pull in mics combined dataset and save as new dataset for VCQI
-	use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
 	* cd to OUTPUT local
 	cd "$OUTPUT_FOLDER"
 
-	save mics_${MICS_NUM}_to_VCQI_RIHC, replace 
+	save MICS_${MICS_NUM}_to_VCQI_RIHC, replace 
 
 
 	* Only keep the people who participated in the survey 
-	keep if mics_${MICS_NUM}_rihc_survey==1 
+	keep if MICS_${MICS_NUM}_rihc_survey==1 
 	
 	* Only keep if the interview was completed
 	keep if HM33==4
@@ -43,7 +43,7 @@ if $RIHC_SURVEY==1 {
 	keep RIHC* `rlist' *rihc_survey rihc_eligible age_months
 	aorder
 
-	save "mics_${MICS_NUM}_to_VCQI_RIHC", replace
+	save "MICS_${MICS_NUM}_to_VCQI_RIHC", replace
 	
 
 }

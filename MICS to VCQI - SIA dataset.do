@@ -17,16 +17,16 @@ set more off
 if $SIA_SURVEY==1 {
 
 	* Pull in mics combined dataset and save as new dataset for VCQI
-	use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
 	* cd to OUTPUT local
 	cd "$OUTPUT_FOLDER"
 
-	save mics_${MICS_NUM}_to_VCQI_SIA, replace 
+	save MICS_${MICS_NUM}_to_VCQI_SIA, replace 
 	
 	* Only keep if part of sia survey
-	keep if mics_${MICS_NUM}_child_survey==1 
+	keep if MICS_${MICS_NUM}_child_survey==1 
 	
 	* Only keep if the interview was completed
 	keep if HM43==4
@@ -55,7 +55,7 @@ if $SIA_SURVEY==1 {
 
 	* Save dataset for each SIA survey and rename each SIA20 variable
 	foreach v in `=lower("${SIA_LIST}")' {
-		use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_to_VCQI_SIA", clear
+		use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_to_VCQI_SIA", clear
 		
 		* Only keep the people who participated in the survey and were eligible
 		*keep if sia_`v'_eligible==1
@@ -66,6 +66,6 @@ if $SIA_SURVEY==1 {
 		keep if sia_participant_`v'==1
 		drop sia_participant_*
 		
-		save mics_${MICS_NUM}_VCQI_SIA_`=upper("`v'")', replace
+		save MICS_${MICS_NUM}_VCQI_SIA_`=upper("`v'")', replace
 	}
 }

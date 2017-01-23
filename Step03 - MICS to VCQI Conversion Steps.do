@@ -7,14 +7,14 @@ Date Created:    			2016-04-28
 Author:         Mary Kay Trimner
 Stata version:    14.0
 ********************************************************************************/
-use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
 *********************************************************************************
 *********************************************************************************
-* Rename all variables to have an mics_#_ infront of the name to indicate mics data
+* Rename all variables to have an MICS_#_ infront of the name to indicate mics data
 foreach v of varlist _all {
-	rename `v' mics_${MICS_NUM}_`v'
+	rename `v' MICS_${MICS_NUM}_`v'
 }
 
 save, replace
@@ -94,7 +94,7 @@ foreach d in MONTH DAY YEAR {
 * if still missing dob_DAY replace with 1 if other date components not missing
 if ${TT_SURVEY}==1 { // if part of the TT/Womens survey, replace day with 1 if the day was not provided but month and year was
 	if "$MOTHER_DOB_DAY"=="" & $MOTHER_DOB==1 {
-		replace dob_DAY=1 if !missing(dob_MONTH) & !missing(dob_YEAR) & missing(dob_DAY) & mics_${MICS_NUM}_tt_survey==1
+		replace dob_DAY=1 if !missing(dob_MONTH) & !missing(dob_YEAR) & missing(dob_DAY) & MICS_${MICS_NUM}_tt_survey==1
 	}
 }
 
@@ -118,26 +118,26 @@ label variable age_months "Participant age in months"
 * Replace age_years/months is equal to the appropriate globals in the correct order based on survey type...
 if $RI_SURVEY==1 {
 	if "$CHILD_AGE_YEARS"!="" {
-		replace age_years=$CHILD_AGE_YEARS if mics_${MICS_NUM}_child_survey==1 
+		replace age_years=$CHILD_AGE_YEARS if MICS_${MICS_NUM}_child_survey==1 
 	}
 	if "$CHILD_AGE_MONTHS"!="" {
-		replace age_months=$CHILD_AGE_MONTHS if mics_${MICS_NUM}_child_survey==1  
+		replace age_months=$CHILD_AGE_MONTHS if MICS_${MICS_NUM}_child_survey==1  
 	}
 	
-	replace age_years=int((mics_${MICS_NUM}_ri_survey_date-dob_for_eligibility)/365.25) if missing(age_years) ///
-						& mics_${MICS_NUM}_child_survey==1 & !missing(mics_${MICS_NUM}_ri_survey_date) & !missing(dob_for_eligibility) 
-	replace age_months=mofd(mics_${MICS_NUM}_ri_survey_date)-mofd(dob_for_eligibility) if missing(age_months) & ///
-						mics_${MICS_NUM}_child_survey==1 & !missing(mics_${MICS_NUM}_ri_survey_date) & !missing(dob_for_eligibility)
+	replace age_years=int((MICS_${MICS_NUM}_ri_survey_date-dob_for_eligibility)/365.25) if missing(age_years) ///
+						& MICS_${MICS_NUM}_child_survey==1 & !missing(MICS_${MICS_NUM}_ri_survey_date) & !missing(dob_for_eligibility) 
+	replace age_months=mofd(MICS_${MICS_NUM}_ri_survey_date)-mofd(dob_for_eligibility) if missing(age_months) & ///
+						MICS_${MICS_NUM}_child_survey==1 & !missing(MICS_${MICS_NUM}_ri_survey_date) & !missing(dob_for_eligibility)
 }
 
 if $TT_SURVEY==1 {
 	if "$MOTHER_AGE_YEARS"!="" {
-		replace age_years=$MOTHER_AGE_YEARS if mics_${MICS_NUM}_tt_survey==1 & !missing(${MOTHER_AGE_YEARS}) 
+		replace age_years=$MOTHER_AGE_YEARS if MICS_${MICS_NUM}_tt_survey==1 & !missing(${MOTHER_AGE_YEARS}) 
 	}
-	replace age_years=int((mics_${MICS_NUM}_tt_survey_date-dob_for_eligibility)/365.25) if mics_${MICS_NUM}_tt_survey==1 & ///
-						missing(age_years) & !missing(mics_${MICS_NUM}_tt_survey_date) & !missing(dob_for_eligibility) 
-	replace age_months=mofd(mics_${MICS_NUM}_tt_survey_date)-mofd(dob_for_eligibility) if mics_${MICS_NUM}_tt_survey==1 & ///
-						missing(age_months) & !missing(mics_${MICS_NUM}_tt_survey_date) & !missing(dob_for_eligibility)
+	replace age_years=int((MICS_${MICS_NUM}_tt_survey_date-dob_for_eligibility)/365.25) if MICS_${MICS_NUM}_tt_survey==1 & ///
+						missing(age_years) & !missing(MICS_${MICS_NUM}_tt_survey_date) & !missing(dob_for_eligibility) 
+	replace age_months=mofd(MICS_${MICS_NUM}_tt_survey_date)-mofd(dob_for_eligibility) if MICS_${MICS_NUM}_tt_survey==1 & ///
+						missing(age_months) & !missing(MICS_${MICS_NUM}_tt_survey_date) & !missing(dob_for_eligibility)
 }
 
 if "${AGE_YEARS}"!="" {
@@ -171,12 +171,12 @@ save, replace
 		describe HH01, replace
 
 			if !missing(vallab) { 
-				use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+				use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 				decode (HH01), generate (HH02)
 				save, replace
 			}
 			else if missing(vallab) {
-				use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+				use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 				gen HH02=HH01
 				save, replace
 			}
@@ -185,7 +185,7 @@ save, replace
 		clonevar HH02=$STRATUM_NAME
 	}
 	
-use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 label variable HH02 "Stratum name"
 
 * Remove the value label from HH01
@@ -201,12 +201,12 @@ save, replace
 		describe HH03, replace
 
 			if !missing(vallab) { 
-				use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
-				decode (mics_${MICS_NUM}_hh1), generate (HH04)
+				use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
+				decode (MICS_${MICS_NUM}_hh1), generate (HH04)
 				save, replace
 			}
 			else if missing(vallab) {
-				use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+				use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 				gen HH04=HH03
 				save, replace
 			}
@@ -215,7 +215,7 @@ save, replace
 		clonevar HH04=${CLUSTER_NAME}
 	}
 	
-use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 label variable HH04 "Cluster name"
 
 * Remove the value label from HH03
@@ -301,7 +301,7 @@ if $TT_SURVEY==1 {
 		
 		* Create variable to determine if eligible for TT survey
 		gen tt_eligible=.
-		gen tt_last_birth_age=(int(mofd(mics_${MICS_NUM}_tt_survey_date-tt_last_birth)))
+		gen tt_last_birth_age=(int(mofd(MICS_${MICS_NUM}_tt_survey_date-tt_last_birth)))
 		
 		replace tt_eligible=(tt_last_birth_age >= $TT_MIN_AGE) & ///
 						(tt_last_birth_age <= $TT_MAX_AGE)
@@ -384,7 +384,7 @@ clonevar HM30=age_months
 	if $RI_SURVEY==1 {
 		clonevar HM31=ri_eligible
 
-		gen HM32=mics_${MICS_NUM}_child_survey==1
+		gen HM32=MICS_${MICS_NUM}_child_survey==1
 	}
 	else {
 		gen HM31=2
@@ -399,7 +399,7 @@ clonevar HM30=age_months
 	if $TT_SURVEY==1 {
 		clonevar HM36=tt_eligible
 
-		gen HM37=mics_${MICS_NUM}_tt_survey==1 
+		gen HM37=MICS_${MICS_NUM}_tt_survey==1 
 	}
 	else {
 		gen HM36=2
@@ -895,7 +895,7 @@ if $TT_SURVEY==1 {
 	clonevar TT03=HH03
 	
 	*Start date of interview
-	clonevar TT09=mics_${MICS_NUM}_tt_survey_date
+	clonevar TT09=MICS_${MICS_NUM}_tt_survey_date
 	
 	*Household ID
 	clonevar TT11=HH14
@@ -995,7 +995,7 @@ if $TT_SURVEY==1 {
 	
 	
 	* If missing TT42 but received TT during last pregnancy, determine the years since last dose by 
-	replace TT42=int((mics_${MICS_NUM}_tt_survey_date-tt_last_birth)/365.25) if !missing(tt_last_birth) & missing(TT42) & TT36==1 
+	replace TT42=int((MICS_${MICS_NUM}_tt_survey_date-tt_last_birth)/365.25) if !missing(tt_last_birth) & missing(TT42) & TT36==1 
 	
 	* If MICS num==3, there are two additional variables that can be used TT7m and TT7y... use this to determine date for variable TT42 if missing
 	if "$LAST_TT_MONTH"!="" & "$LAST_TT_YEAR"!=""{
@@ -1003,7 +1003,7 @@ if $TT_SURVEY==1 {
 		format %td  last_tt_dose
 		label variable last_tt_dose "Date of last tt dose if month and year provided"
 		
-		gen years_since_tt=int((mics_${MICS_NUM}_tt_survey_date-last_tt_dose)/365.25)
+		gen years_since_tt=int((MICS_${MICS_NUM}_tt_survey_date-last_tt_dose)/365.25)
 		label variable years_since_tt "Number of years between last tt dose and survey date"
 		
 		replace TT42=years_since_tt if missing(TT42) & !missing(years_since_tt)

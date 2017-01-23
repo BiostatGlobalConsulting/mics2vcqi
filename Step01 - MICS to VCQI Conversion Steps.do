@@ -52,7 +52,7 @@ if $RI_SURVEY ==1 & $TT_SURVEY==1 {
 	gen child_survey=1
 	label variable child_survey "Participated in Child Survey"
 
-	save "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", replace
+	save "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", replace
 
 	
 	append using "${MICS_WM_DATA}"
@@ -124,7 +124,7 @@ if $RI_SURVEY ==1 & $TT_SURVEY!=1 {
 	gen child_survey=1
 	label variable child_survey "Participated in Child Survey"
 
-	save "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", replace
+	save "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", replace
 	
 	* Create line number variable for merging purposes
 	gen ${HM_LINE}= ${RI_LINE} 
@@ -154,7 +154,7 @@ if $RI_SURVEY ==1 & $TT_SURVEY!=1 {
 if $RI_SURVEY !=1 & $TT_SURVEY==1 {
 	use "${MICS_WM_DATA}", clear
 
-	save "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", replace
+	save "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", replace
 
 	* Create variable to indicate Womens Survey
 	gen tt_survey=1 

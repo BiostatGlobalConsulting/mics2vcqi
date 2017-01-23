@@ -15,7 +15,7 @@ Stata version:    14.0
 set more off
 
 * Pull in MICS combined dataset and save as new dataset for VCQI
-use "${OUTPUT_FOLDER}/mics_${MICS_NUM}_combined_dataset", clear
+use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
 * cd to OUTPUT local

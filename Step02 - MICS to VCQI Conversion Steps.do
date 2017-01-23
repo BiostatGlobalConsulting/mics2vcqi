@@ -25,7 +25,7 @@ if "$PROVINCE_ID"=="" {
 else {
 	capture confirm variable ${PROVINCE_ID}
 		if !_rc {
-			global PROVINCE_ID 	mics_${MICS_NUM}_${PROVINCE_ID}	
+			global PROVINCE_ID 	MICS_${MICS_NUM}_${PROVINCE_ID}	
 		}
 		else {
 			if "$PROVINCE_ID"!="1" {
@@ -44,7 +44,7 @@ else {
 	foreach v in $LEVEL_3_ID {
 		capture confirm variable `v'
 			if !_rc {
-				local l3list  `l3list' mics_${MICS_NUM}_`v'	
+				local l3list  `l3list' MICS_${MICS_NUM}_`v'	
 			}
 			else {
 				di as error ///
@@ -68,7 +68,7 @@ else {
 		else {
 			capture confirm variable ${`v'}
 				if !_rc {
-					global `v' 	mics_${MICS_NUM}_${`v'}	
+					global `v' 	MICS_${MICS_NUM}_${`v'}	
 				}
 				else {
 					di as error ///
@@ -85,7 +85,7 @@ else {
 			if "$`v'"!="" {
 			capture confirm variable ${`v'}
 				if !_rc {
-					global `v' 	mics_${MICS_NUM}_${`v'}	
+					global `v' 	MICS_${MICS_NUM}_${`v'}	
 				}
 				else {
 					di as error ///
@@ -115,7 +115,7 @@ if $RI_SURVEY==1 {
 		else {
 			capture confirm variable ${`v'}
 				if !_rc {
-					global `v' 	mics_${MICS_NUM}_${`v'}	
+					global `v' 	MICS_${MICS_NUM}_${`v'}	
 				}
 				else {
 					di as error ///
@@ -134,7 +134,7 @@ if $RI_SURVEY==1 {
 			else {
 				capture confirm variable ${`v'_DATE_CARD_`m'}
 					if !_rc {
-						global `v'_DATE_CARD_`m' 	mics_${MICS_NUM}_${`v'_DATE_CARD_`m'}	
+						global `v'_DATE_CARD_`m' 	MICS_${MICS_NUM}_${`v'_DATE_CARD_`m'}	
 					}
 					else {
 						di as error ///
@@ -194,7 +194,7 @@ if $RI_SURVEY==1 {
 				if "${`g'_`m'}"!="1" {
 					capture confirm variable ${`g'_`m'} 
 						if !_rc {
-							global `g'_`m' 	mics_${MICS_NUM}_${`g'_`m'}	
+							global `g'_`m' 	MICS_${MICS_NUM}_${`g'_`m'}	
 						}
 						else {
 							di as error ///
@@ -241,7 +241,7 @@ if $RI_SURVEY==1 {
 				if "${`g'_`m'}"!="1" {
 					capture confirm variable ${`g'_`m'} 
 						if !_rc {
-							global `g'_`m' 	mics_${MICS_NUM}_${`g'_`m'}	
+							global `g'_`m' 	MICS_${MICS_NUM}_${`g'_`m'}	
 						}
 						else {
 							di as error ///
@@ -266,7 +266,7 @@ if $RI_SURVEY==1 {
 			else {
 				capture confirm variable ${`v'}
 					if !_rc {
-						global `v' 	mics_${MICS_NUM}_${`v'}	
+						global `v' 	MICS_${MICS_NUM}_${`v'}	
 					}
 					else {
 						di as error ///
@@ -283,7 +283,7 @@ if $RI_SURVEY==1 {
 				else {
 					capture confirm variable ${`v'_DATE_REG_`m'}
 						if !_rc {
-							global `v'_DATE_REG_`m' 	mics_${MICS_NUM}_${`v'_DATE_REG_`m'}	
+							global `v'_DATE_REG_`m' 	MICS_${MICS_NUM}_${`v'_DATE_REG_`m'}	
 						}
 						else {
 							di as error ///
@@ -309,7 +309,7 @@ if $RI_SURVEY==1 {
 	else {
 		capture confirm variable ${SIA_DISPOSITION}
 			if !_rc {
-				global SIA_DISPOSITION	mics_${MICS_NUM}_${SIA_DISPOSITION}	
+				global SIA_DISPOSITION	MICS_${MICS_NUM}_${SIA_DISPOSITION}	
 			}
 			else {
 				di as error ///
@@ -329,7 +329,7 @@ if $RI_SURVEY==1 {
 		else {
 			capture confirm variable ${SIA_`v'}
 				if !_rc {
-					global SIA_`v'	mics_${MICS_NUM}_${SIA_`v'}	
+					global SIA_`v'	MICS_${MICS_NUM}_${SIA_`v'}	
 				}
 				else {
 					di as error ///
@@ -364,7 +364,7 @@ if $TT_SURVEY==1 {
 				if "$`v'"!="1" {
 				capture confirm variable ${`v'}
 					if !_rc {
-						global `v' 	mics_${MICS_NUM}_${`v'}	
+						global `v' 	MICS_${MICS_NUM}_${`v'}	
 					}
 					else {
 						di as error ///
