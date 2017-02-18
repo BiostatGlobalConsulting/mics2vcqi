@@ -14,9 +14,9 @@ else if "$DHS_NUM" != "" {
 	local program DHS
 }
 
-do "${RUN_FOLDER}/Step01- `program' to VCQI Conversion Steps"
-do "${RUN_FOLDER}/Step02- `program' to VCQI Conversion Steps"
-do "${RUN_FOLDER}/Step03- `program' to VCQI Conversion Steps"
-do "${RUN_FOLDER}/Step04- `program' to VCQI Conversion Steps"
+do "${RUN_FOLDER}/Step01 - `program' to VCQI Conversion Steps"
+do "${RUN_FOLDER}/Step02 - `program' to VCQI Conversion Steps"
+do "${RUN_FOLDER}/Step03 - `program' to VCQI Conversion Steps"
+do "${RUN_FOLDER}/Step04 - `program' to VCQI Conversion Steps"
 
 
