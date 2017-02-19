@@ -165,6 +165,9 @@ global CHILD_DOB_HIST_YEAR		ag1y 		// OPTIONAL -can be blank if not available if
 * Child Age in Years
 global CHILD_AGE_YEARS			ag2 		// OPTIONAL -can be blank if not available
 
+* Child Age in Months
+global CHILD_AGE_MONTHS			cage 		// OPTIONAL -can be blank if not available
+
 * House member line number in Child dataset
 global RI_LINE 					uf4
 
