@@ -1,5 +1,5 @@
 /**********************************************************************
-Program Name:               MICS to VCQI -HM dataset
+Program Name:               MICS to VCQI - HM dataset
 Purpose:                    Code to create VCQI dataset using MICS questionnaire
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
 Charge Number:  
