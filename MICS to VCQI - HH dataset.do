@@ -40,6 +40,10 @@ foreach v in `=lower("${SIA_LIST}")' {
 	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_to_VCQI_HH", clear
 	rename HH25_`v' HH25
 	
-	drop HH25_* 
+	* If there is more than 1 SIA campaign drop all other campaign variables
+	if `=wordcount("${SIA_LIST}")'> 1 {
+		drop HH25_* 
+	}
+
 	save MICS_${MICS_NUM}_VCQI_HH_SIA_`=upper("`v'")', replace
 }
