@@ -1,6 +1,6 @@
 /**********************************************************************
-Program Name:               mics to VCQI -RI dataset
-Purpose:                     Code to create VCQI dataset using mics questionnaire
+Program Name:               MICS to VCQI - RI dataset
+Purpose:                    Code to create VCQI dataset using mics questionnaire
 Project:                    Q:\- WHO mics VCQI-compatible\mics manuals
 Charge Number:  
 Date Created:    			2016-04-28
@@ -18,8 +18,7 @@ if $RI_SURVEY==1 {
 	* Pull in mics combined dataset and save as new dataset for VCQI
 	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
-
-	* cd to OUTPUT local
+	* cd to Output folder
 	cd "$OUTPUT_FOLDER"
 
 	save MICS_${MICS_NUM}_to_VCQI_RI, replace 
