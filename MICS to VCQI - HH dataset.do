@@ -1,6 +1,6 @@
 /**********************************************************************
 Program Name:               MICS to VCQI -HH dataset
-Purpose:                     Code to create VCQI dataset using MICS questionnaire
+Purpose:                    Code to create VCQI dataset using MICS questionnaire
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
 Charge Number:  
 Date Created:    			2016-04-06
@@ -18,18 +18,16 @@ set more off
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
-* cd to OUTPUT local
+* cd to OUTPUT
 cd "$OUTPUT_FOLDER"
 
 save MICS_${MICS_NUM}_to_VCQI_HH, replace 
 
 	
-* Only variables required are HH01, HH02, HH03, HH04, HH12, HH14, HH18, HH23, HH24, HH25 
-
-
 * Drop all lines so there is only one line per household
 bysort HH01 HH03 HH14: keep if _n==1
 
+* Only variables required are HH01, HH02, HH03, HH04, HH12, HH14, HH18, HH23, HH24, HH25 
 keep HH* 
 aorder
 
