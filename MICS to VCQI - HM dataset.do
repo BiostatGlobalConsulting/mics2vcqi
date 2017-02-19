@@ -1,6 +1,6 @@
 /**********************************************************************
 Program Name:               MICS to VCQI -HM dataset
-Purpose:                     Code to create VCQI dataset using MICS questionnaire
+Purpose:                    Code to create VCQI dataset using MICS questionnaire
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
 Charge Number:  
 Date Created:    			2016-04-27
@@ -17,14 +17,12 @@ set more off
 * Pull in MICS combined dataset and save as new dataset for VCQI
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
-
-* cd to OUTPUT local
+* cd to OUTPUT 
 cd "$OUTPUT_FOLDER"
 
 save MICS_${MICS_NUM}_to_VCQI_HM, replace 
 
 * Drop all variables except HM
-
 keep HM* 
 aorder
 
