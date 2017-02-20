@@ -1,5 +1,5 @@
 /**********************************************************************
-Program Name:               Step04- MICS to VCQI Converstion Steps 
+Program Name:               Step04 - MICS to VCQI Conversion Steps 
 Purpose:                    Create the datasets 
 *													
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
