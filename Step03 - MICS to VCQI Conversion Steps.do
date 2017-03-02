@@ -576,7 +576,7 @@ if $RI_SURVEY==1 {
 		replace RI26=99 if RI26==8
 		
 		* Replace all other values with missing
-		replace RI26=2 if !inlist(RI26,1,2,99)
+		replace RI26=. if !inlist(RI26,1,2,99)
 	}
 	else if ${MICS_NUM}==3 {
 		gen RI26=.
@@ -592,7 +592,7 @@ if $RI_SURVEY==1 {
 		replace RI26=99 if ${CARD_SEEN}==8
 		
 		* Replace all other values to missing
-		replace RI26=2 if !inlist(${CARD_SEEN},1,2,99)
+		replace RI26=. if !inlist(RI26,1,2,99)
 		
 	}
 	
