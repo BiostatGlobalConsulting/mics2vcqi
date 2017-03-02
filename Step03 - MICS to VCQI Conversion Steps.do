@@ -648,6 +648,7 @@ if $RI_SURVEY==1 {
 			
 			if "${CHILD_DOB_`i'_`c'}"!="" {
 				replace dob_date_`v'_`d'=${CHILD_DOB_`i'_`c'} 
+				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666)
 			}
 		}
 	}
