@@ -324,6 +324,10 @@ global HIB_DOSE_NUM
 global HIB_HIST
 
 
+* Additional variables to keep (usually multiple choice questions)
+* e.g. religion, education etc
+global RI_ADDITIONAL_VARS
+
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************
