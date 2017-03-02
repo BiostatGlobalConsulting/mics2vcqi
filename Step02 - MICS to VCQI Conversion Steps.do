@@ -1,5 +1,5 @@
 /**********************************************************************
-Program Name:               Step02- MICS to VCQI Converstion Steps 
+Program Name:               Step02 - MICS to VCQI Conversion Steps 
 Purpose:                    Checks to make sure all necessary globals are populated 
 *													
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
@@ -35,7 +35,7 @@ else {
 		}
 }
 
-* Level3id is a little different and may have two variables. You will need to check each varaible
+* Level3id is a little different and may have two variables. You will need to check each variable
 * Check to make sure the global is populated
 if "$LEVEL_3_ID"=="" {
 	di as error "Global macro LEVEL_3_ID must be defined to complete the any analysis"
@@ -58,26 +58,26 @@ else {
 
 	
 	
-	foreach v in STRATUM_ID STRATUM_NAME CLUSTER_ID CLUSTER_NAME HH_ID HH_DATE_MONTH ///
-			HH_DATE_DAY HH_DATE_YEAR HM_LINE OVERALL_DISPOSITION PSWEIGHT_1YEAR ///		
-			PSWEIGHT_SIA URBAN_CLUSTER SEX {			
+foreach v in STRATUM_ID STRATUM_NAME CLUSTER_ID CLUSTER_NAME HH_ID HH_DATE_MONTH ///
+		HH_DATE_DAY HH_DATE_YEAR HM_LINE OVERALL_DISPOSITION PSWEIGHT_1YEAR ///		
+		PSWEIGHT_SIA URBAN_CLUSTER SEX {			
 		
-		if "$`v'"=="" {
-			di as error "Global macro `v' must be defined to complete the any analysis"
-		}
-		else {
-			capture confirm variable ${`v'}
-				if !_rc {
-					global `v' 	MICS_${MICS_NUM}_${`v'}	
-				}
-				else {
-					di as error ///
-					"Variable ${`v'} provided in global macro `v' does not exist" //Let the user know if a variable does not exist in dataset
-				}
-		}
+	if "$`v'"=="" {
+		di as error "Global macro `v' must be defined to complete the any analysis"
+	}
+	else {
+		capture confirm variable ${`v'}
+			if !_rc {
+				global `v' 	MICS_${MICS_NUM}_${`v'}	
+			}
+			else {
+				di as error ///
+				"Variable ${`v'} provided in global macro `v' does not exist" //Let the user know if a variable does not exist in dataset
+			}
+	}
 }
 
-* These variables are not required in the surveys but if populated need to ensure the variable exists
+* These variables are not required in the surveys but if populated, need to verify the variable exists
  foreach v in DATE_OF_BIRTH_MONTH DATE_OF_BIRTH_YEAR DATE_OF_BIRTH_DAY AGE_YEARS DATE_OF_BIRTH AGE_MONTHS ///
 				CHILD_AGE_YEARS CHILD_AGE_MONTHS CHILD_DOB_CARD_MONTH CHILD_DOB_CARD_DAY CHILD_DOB_CARD_YEAR LEVEL_4_ID ///
 				MOTHER_DOB_DAY MOTHER_AGE_YEARS TT_CHILD_DOB_DAY LAST_TT_MONTH LAST_TT_YEAR TT_CHILD_DOB_MONTH ///
@@ -94,18 +94,17 @@ else {
 		}
 }
 			
-	
 
 if $RI_SURVEY==1 {
 
-* Check that all non variable globals are populated if required
+* Check that all non-variable globals are populated if required
 	foreach v in RI_MIN_AGE RI_MAX_AGE RI_LIST CARD_DOB {
 		if "$`v'"=="" {
 			di as error "Global macro `v' must be defined to complete the RI analysis"
 		}
 	}
 		
-	foreach v in  RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN ///
+	foreach v in RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN ///
 				  RI_DATE_MONTH RI_DATE_DAY RI_DATE_YEAR CHILD_DOB_HIST_MONTH CHILD_DOB_HIST_DAY ///
 				  CHILD_DOB_HIST_YEAR RI_LINE {
 			  
@@ -253,9 +252,6 @@ if $RI_SURVEY==1 {
 		
 	}
 
-
-	
-	
 					
 	if $RIHC_SURVEY==1 {
 		foreach v in RIHC_LINE RIHC_DATE_MONTH RIHC_DATE_DAY RIHC_DATE_YEAR ///
@@ -353,30 +349,24 @@ if $TT_SURVEY==1 {
 	}
 	
 	
-		* For the globals that will be populated with variable values confirm the variables exist
-		foreach v in TT_LINE TT_DATE_MONTH TT_DATE_DAY TT_DATE_YEAR MOTHER_DOB_MONTH ///			
-					MOTHER_DOB_YEAR MOTHER_CARD_SEEN TT_PREGNANCY NUM_TT_PREGNANCY ///
-					TT_ANYTIME NUM_TT_ANYTIME YEARS_SINCE_LAST_TT TT_DISPOSITION {
-			if "$`v'"=="" {
-				di as error "Global macro `v' must be defined to complete the TT analysis"
-			}
-			else if "$`v'"!="" {
-				if "$`v'"!="1" {
-				capture confirm variable ${`v'}
-					if !_rc {
-						global `v' 	MICS_${MICS_NUM}_${`v'}	
-					}
-					else {
-						di as error ///
-						"Variable ${`v'} provided in global macro `v' does not exist" //Let the user know if a variable does not exist in dataset
-					}
+	* For the globals that will be populated with variable values confirm the variables exist
+	foreach v in TT_LINE TT_DATE_MONTH TT_DATE_DAY TT_DATE_YEAR MOTHER_DOB_MONTH ///			
+				MOTHER_DOB_YEAR MOTHER_CARD_SEEN TT_PREGNANCY NUM_TT_PREGNANCY ///
+				TT_ANYTIME NUM_TT_ANYTIME YEARS_SINCE_LAST_TT TT_DISPOSITION {
+		if "$`v'"=="" {
+			di as error "Global macro `v' must be defined to complete the TT analysis"
+		}
+		else if "$`v'"!="" {
+			if "$`v'"!="1" {
+			capture confirm variable ${`v'}
+				if !_rc {
+					global `v' 	MICS_${MICS_NUM}_${`v'}	
+				}
+				else {
+					di as error ///
+					"Variable ${`v'} provided in global macro `v' does not exist" //Let the user know if a variable does not exist in dataset
+				}
 			}
 		}
 	}
 }
-
-										
-				 
-	
-				
-				

@@ -1,5 +1,5 @@
 /**********************************************************************
-Program Name:               Step03- MICS to VCQI Converstion Steps 
+Program Name:               Step03 - MICS to VCQI Conversion Steps 
 Purpose:                    Rename variables and create VCQI required variables 
 *													
 Project:                    Q:\- WHO MICS VCQI-compatible\MICS manuals
@@ -7,12 +7,12 @@ Date Created:    			2016-04-28
 Author:         Mary Kay Trimner
 Stata version:    14.0
 ********************************************************************************/
+
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
-
 *********************************************************************************
 *********************************************************************************
-* Rename all variables to have an MICS_#_ infront of the name to indicate mics data
+* Rename all variables to have a MICS_#_ in front of the name to indicate mics data
 foreach v of varlist _all {
 	rename `v' MICS_${MICS_NUM}_`v'
 }
@@ -62,8 +62,8 @@ foreach d in MONTH DAY YEAR {
 		local vlist`d' `=subinstr("`vlist`d''"," ,","",.)'
 	}
 	
-	* If it ends with a , this will need to be removed
-	if "`=substr("`vlist`d''",-1,1)'"=="," { // replace , with missing if last character in string is ,
+	* If it ends with a "," this will need to be removed
+	if "`=substr("`vlist`d''",-1,1)'"=="," { // replace "," with missing ".", if last character in string is ","
 		local vlist`d' `=substr("`vlist`d''",1,length("`vlist`d''")-1)'
 		
 	}
@@ -71,7 +71,7 @@ foreach d in MONTH DAY YEAR {
 	di "`vlist`d''"
 	
 	
-	foreach v in `=subinstr("`vlist`d''",","," ",.)' { //replace , with space " " for purposes of doing replacement
+	foreach v in `=subinstr("`vlist`d''",","," ",.)' { //replace "," with space " " for purposes of doing replacement
 			replace `v'=. if inlist(`v',99,98,9999,9998) 
 	}
 
@@ -92,13 +92,13 @@ foreach d in MONTH DAY YEAR {
 
 
 * if still missing dob_DAY replace with 1 if other date components not missing
-if ${TT_SURVEY}==1 { // if part of the TT/Womens survey, replace day with 1 if the day was not provided but month and year was
+if ${TT_SURVEY}==1 { // if part of the TT/Women's survey, replace day with 1 if the day was not provided but month and year are provided
 	if "$MOTHER_DOB_DAY"=="" & $MOTHER_DOB==1 {
 		replace dob_DAY=1 if !missing(dob_MONTH) & !missing(dob_YEAR) & missing(dob_DAY) & MICS_${MICS_NUM}_tt_survey==1
 	}
 }
 
-if "$DATE_OF_BIRTH_DAY"=="" & ${HH_DOB}==1 { //if the date of birth was provided during HH survey but no variable for Day, replace with 1 
+if "$DATE_OF_BIRTH_DAY"=="" & ${HH_DOB}==1 { //if the date of birth was provided during HH survey but no variable for Day, use 1 as day value
 	replace dob_DAY=1 if !missing(dob_MONTH) & !missing(dob_YEAR) & missing(dob_DAY) 
 }
 
@@ -148,7 +148,7 @@ if "${AGE_MONTHS}"!=""  {
 	replace age_months=$AGE_MONTHS if missing(age_months) // if age_months could not be calculated, use the variable provided for AGE_MONTHS if populated
 }
 
-* Replace age_months equals the age in years*12 months to get the count of months if still missing	
+* Replace age_months equals the age in years*12 months to get the count of months if age_months is still missing	
 replace age_months=int(age_years*12) if missing(age_months) & age_years!=. 
 
 
@@ -159,14 +159,13 @@ replace age_months=int(age_years*12) if missing(age_months) & age_years!=.
 *******************************************************************************************
 * Create variables for HH dataset
 
-
 * Generate VCQI variable HH01- Stratum ID based on user inputs for $STRATUM
 clonevar HH01=$STRATUM_ID
 label variable HH01 "Stratum ID"
 save, replace
 	
 ****************************************************************
-* VCQI Variable HH02 will be contingent on HH01 and if it is has a value label
+* VCQI Variable HH02 will be contingent on if HH01 has a value label
 	if ${STRATUM_ID}==${STRATUM_NAME} {
 		describe HH01, replace
 
@@ -244,7 +243,7 @@ label value HH12 yesno
 gen HH18=. 
 	if inlist(${MICS_NUM},5,4) {
 		replace HH18=1 if inlist(${OVERALL_DISPOSITION},1) //Completed
-		replace HH18=3 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no compentent respondent at home, Entire household absent for extended time
+		replace HH18=3 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no competent respondent at home, Entire household absent for extended time
 																	 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
 		replace HH18=4 if inlist(${OVERALL_DISPOSITION},4) //Refused
 	}
@@ -284,7 +283,7 @@ if $SIA_SURVEY==1 {
 
 if $TT_SURVEY==1 {
 
-	* Need to accomodate for if there is a child date of birth or not
+	* Need to accommodate for if there is a child date of birth or not
 	
 	* If the TT_CHILD_DOB_MONTH and TT_CHILD_DOB_YEAR are provided ...
 	if "$TT_CHILD_DOB_MONTH"!="" & "$TT_CHILD_DOB_YEAR"!="" {
@@ -294,7 +293,7 @@ if $TT_SURVEY==1 {
 			global TT_CHILD_DOB_DAY 1
 		}
 		
-		* Create variable to show the last born child dob in date format
+		* Create variable to show the last-born child dob in date format
 		gen tt_last_birth=mdy(${TT_CHILD_DOB_MONTH},${TT_CHILD_DOB_DAY},${TT_CHILD_DOB_YEAR}) 
 		format tt_last_birth %td
 
@@ -359,7 +358,7 @@ save, replace
 *******************************************************************************************
 *******************************************************************************************
 *******************************************************************************************
-* Create HM vartiables
+* Create HM variables
 
 * HM01, HM02, HM03, HM04 HM09 will copy the variables that were created for the HH dataset
 clonevar HM01=HH01
@@ -406,8 +405,8 @@ clonevar HM30=age_months
 		gen HM37=.
 	}
 	
-	label variable HM36 "Eligible for TT  Survey"
-	label variable HM37 "Selected for TT  Survey"
+	label variable HM36 "Eligible for TT Survey"
+	label variable HM37 "Selected for TT Survey"
 	label value HM36 yesno
 	label value HM37 yesno
 
@@ -447,7 +446,7 @@ clonevar HM30=age_months
 gen HM19=.
 	if inlist(${MICS_NUM},5,4) {
 		replace HM19=4 if inlist(${OVERALL_DISPOSITION},1) //Completed
-		replace HM19=1 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no compentent respondent at home, Entire household absent for extended time
+		replace HM19=1 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no competent respondent at home, Entire household absent for extended time
 																	 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
 		replace HM19=3 if inlist(${OVERALL_DISPOSITION},4) //Refused
 	}
@@ -488,7 +487,7 @@ foreach v in HM33 HM38 HM43 {
 	if !_rc {
 		if inlist(${MICS_NUM},5,4) {
 			replace `v'=4 if inlist(${`=upper("`s'")'_DISPOSITION},1) //Completed
-			replace `v'=2 if inlist(${`=upper("`s'")'_DISPOSITION},2,4,5,6,7,96) //No member home/ no compentent respondent at home, Entire household absent for extended time
+			replace `v'=2 if inlist(${`=upper("`s'")'_DISPOSITION},2,4,5,6,7,96) //No member home/ no competent respondent at home, Entire household absent for extended time
 																		 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
 			replace `v'=3 if inlist(${`=upper("`s'")'_DISPOSITION},3) //Refused
 		}
@@ -501,8 +500,8 @@ foreach v in HM33 HM38 HM43 {
 }
 	
 
-* Create variables missing for HM20, HM21, HM34, HM35 HM39, HM40, HM44 HM45 disposition codes for additional visists
-* These are set to missing because based on the dataset we cannot tell if followup visits occured
+* Create variables missing for HM20, HM21, HM34, HM35 HM39, HM40, HM44 HM45 disposition codes for additional visits
+* These are set to missing because based on the dataset we cannot tell if follow-up visits occurred
 foreach v in HM20 HM21 HM34 HM35 HM39 HM40 HM44 HM45 {
 	gen `v'=.
 }
@@ -552,7 +551,7 @@ save, replace
 
 
 if $RI_SURVEY==1 {
-	* Create RI vartiables and RIHC variables
+	* Create RI variables and RIHC variables
 
 	* Create variable RI01 Stratum ID number
 	clonevar RI01=HH01
@@ -586,7 +585,7 @@ if $RI_SURVEY==1 {
 		* Replace RI26=1 if ${CARD_SEEN} equals 1 or 2 as these are not included in the ${CARD_EVER_RECEIVED} variable
 		replace RI26=1 if inlist(${CARD_SEEN},1,2)
 		
-		* Replace RI26=2 (No) if Card_seen==3 (No)
+		* Replace RI26=2 (No) if $CARD_SEEN==3 (No)
 		replace RI26=2 if ${CARD_SEEN}==3
 
 		* Replace the idk value to correspond to VCQI
@@ -604,8 +603,10 @@ if $RI_SURVEY==1 {
 	* Create RI27 Vaccination Card seen
 	clonevar RI27=${CARD_SEEN}
 	
-	* Replace the idk and other values with . 
-	replace RI27=. if !inlist(RI27,1,2) //repondents with value 3 No card, should not be included in this question they will have a response of 2 in RI26
+	* Replace the idk and other values with missing "." 
+	replace RI27=. if !inlist(RI27,1,2) //respondents with value 3 No card, 
+										//should not be included in this question 
+										//they will have a response of 2 in RI26
 	
 	* Relabel RI27 so labels align with VCQI
 	label define card_seen 1 "Yes, Card Seen" 2 "No, Card Not Seen", replace
@@ -727,7 +728,7 @@ if $RI_SURVEY==1 {
 
 
 		
-		* replace to a "no" or do not know value if history is set to that
+		* Replace to a "no" or "do not know value" or "missing" accordingly
 		replace `=lower("`d'")'_history=2 if ${`g'_HIST}==2
 		replace `=lower("`d'")'_history=99 if ${`g'_HIST}==8
 		replace `=lower("`d'")'_history=. if ${`g'_HIST}==9 
@@ -735,7 +736,7 @@ if $RI_SURVEY==1 {
 		* Replace history
 		replace `=lower("`d'")'_history=1 if inlist(`=lower("`d'")'_date_card_m,66,6666) | inlist(`=lower("`d'")'_date_card_d,66,6666) |inlist(`=lower("`d'")'_date_card_y,66,6666)
 			
-		if "0"==substr("`d'",-1,1) { // if the dose is at birth, need to look at the specific at bith variable for history
+		if "0"==substr("`d'",-1,1) { // if the dose is at birth, need to look at the specific at birth variable for history
 
 			* Replace the history for multiple doses
 			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1 & (${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM} >= `i') & !missing(${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM})  
@@ -801,7 +802,7 @@ if $RI_SURVEY==1 {
 		* Individual ID
 		clonevar RIHC15=${RI_LINE}
 		
-		* Date of Birth on card or recal
+		* Date of Birth on card or recall
 		gen RIHC21=mdy(dob_date_card_m,dob_date_card_d,dob_date_card_y)
 		format %td RIHC21
 		label variable RIHC21 "Date of birth (according to card seen in home (preferred) or caregiver recall on HH listing)"
@@ -855,12 +856,13 @@ if $SIA_SURVEY==1 {
 	}
 
 
-	* Create these variables as do not know as they do not exist in the MICS survyes but cannot take on a value of missing.
+	* Create these variables set to "do not know" as they are not part of the MICS surveys
+	* But cannot take on a value of missing in VCQI
 	foreach v in 27 {
 		gen SIA`v'=99
 	}
-	* Create these variables as missing as they do not exist in the MICS survyes.
-
+	
+	* Create these variables set to "missing" as the questions are not part of the MICS surveys.
 	foreach v in 21 22 28 29 30 31 32 33 {
 		gen SIA`v'=.
 	}
@@ -922,7 +924,7 @@ if $TT_SURVEY==1 {
 		local i `=`i' + 1'
 	}
 	
-	* TT36 - TT injection recieved during pregnancy
+	* TT36 - TT injection received during pregnancy
 	* TT37 - how many times received
 	
 	clonevar TT36=${TT_PREGNANCY}
@@ -952,15 +954,15 @@ if $TT_SURVEY==1 {
 	label variable TT39 ///
 	"How many times did you receive this injection in the arm (tetanus vaccination) during your pregnancies previous to the pregnancy with (name)?"
 	
-	* TT40- TT received at anytime during life
+	* TT40- TT received at any time during life
 	* TT41- Number of times received
-	* TT42- How many years since last TT vacciantion
+	* TT42- How many years since last TT vaccination
 	clonevar TT40=${TT_ANYTIME}
 	
 	* Replace values to align with VCQI
 	replace TT40=99 if TT40==8
 	replace TT40=. if !inlist(TT40,1,2,99) //Change all other values to missing as they are not valid in VCQI or MICS
-	label define yesnodnk 1 "Yes" 2 "No" 99 "Do Not KNow", replace
+	label define yesnodnk 1 "Yes" 2 "No" 99 "Do Not Know", replace
 	label value TT40 yesnodnk 
 
 	
@@ -997,7 +999,8 @@ if $TT_SURVEY==1 {
 	* If missing TT42 but received TT during last pregnancy, determine the years since last dose by 
 	replace TT42=int((MICS_${MICS_NUM}_tt_survey_date-tt_last_birth)/365.25) if !missing(tt_last_birth) & missing(TT42) & TT36==1 
 	
-	* If MICS num==3, there are two additional variables that can be used TT7m and TT7y... use this to determine date for variable TT42 if missing
+	* If MICS num==3, there are two additional variables that can be used TT7m and TT7y
+	* Use these to determine the date for variable TT42 if missing
 	if "$LAST_TT_MONTH"!="" & "$LAST_TT_YEAR"!=""{
 		gen last_tt_dose=mdy(${LAST_TT_MONTH}, 1, ${LAST_TT_YEAR})
 		format %td  last_tt_dose

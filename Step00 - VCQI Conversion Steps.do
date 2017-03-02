@@ -1,8 +1,8 @@
 /**********************************************************************
-Program Name:               Step00- VCQI Converstion Steps 
+Program Name:               Step00 - VCQI Conversion Steps 
 Purpose:                    Create the datasets based on survey type
 *													
-Project:                    Q:\- WHO DHS VCQI-compatible\DHS manuals
+Project:                    Q:\- WHO (MICS/DHS) VCQI-compatible\(MICS/DHS) manuals
 Date Created:    			2016-06-21
 Author:         Mary Kay Trimner
 Stata version:    14.0

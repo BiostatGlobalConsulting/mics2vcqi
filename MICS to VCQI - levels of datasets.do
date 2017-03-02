@@ -1,6 +1,6 @@
 /**********************************************************************
-Program Name:               mics to VCQI -levels of datasets
-Purpose:                     Code to create VCQI dataset using mics questionnaire
+Program Name:               MICS to VCQI - levels of datasets
+Purpose:                    Code to create VCQI dataset using mics questionnaire
 Project:                    Q:\- WHO mics VCQI-compatible\mics manuals
 Charge Number:  
 Date Created:    			2016-04-27
@@ -12,14 +12,11 @@ Author:         Mary Kay Trimner
 
 Stata version:    14.0
 **********************************************************************/
-* Set globals to help run the below program
-
-	
 * Bring in Combined dataset
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
-* cd to OUTPUT local
-	cd "$OUTPUT_FOLDER"
+* cd to OUTPUT 
+cd "$OUTPUT_FOLDER"
 
 * Create level1name dataset
 clear
@@ -30,16 +27,16 @@ save level1name, replace
 
 * Create level2names dataset
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
-		bysort $PROVINCE_ID: keep if _n == 1
-	keep $PROVINCE_ID
-	sort $PROVINCE_ID
-	rename $PROVINCE_ID level2id
-	gen level2name = ""
-	forvalues i = 1/`=_N' {
-		replace level2name = "`:label `=subinstr("$PROVINCE_ID","MICS_${MICS_NUM}_","",.)' `=level2id[`i']''" in `i'
-	}
-	label value level2id
-	save level2names, replace
+bysort $PROVINCE_ID: keep if _n == 1
+keep $PROVINCE_ID
+sort $PROVINCE_ID
+rename $PROVINCE_ID level2id
+gen level2name = ""
+forvalues i = 1/`=_N' {
+	replace level2name = "`:label `=subinstr("$PROVINCE_ID","MICS_${MICS_NUM}_","",.)' `=level2id[`i']''" in `i'
+}
+label value level2id
+save level2names, replace
 
 
 * Create level2order dataset
@@ -78,6 +75,7 @@ else {
 	label value level3id 
 	save level3names, replace
 }
+
 * Create level3order dataset
 clear
 use level3names

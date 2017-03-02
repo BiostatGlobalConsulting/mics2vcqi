@@ -12,7 +12,7 @@ Stata version:    			14.0
 * All date components will need to be broken into 3 separate variables; month, day and year.
 
 * Set maxvar so there are no issues with the size of the dataset
-clear 				//Need to clear out any existing data to run the next command
+clear 				// Need to clear out any existing data to run the next command
 clear mata		 	// Need to clear out mata to avoid errors.
 set maxvar 32767	// Change maxvar to the largest possible value to avoid errors while importing data.
 
@@ -25,7 +25,7 @@ global MICS_NUM 4
 * Path where MICS to VCQI Conversion programs are saved
 global RUN_FOLDER 
 
-* Path where STATA will grab the original MICS datasets
+* Path where STATA will grab the original MICS stata datasets
 global INPUT_FOLDER 
 			
 * Path where you would like STATA to put the new datasets that can be run through VCQI
@@ -36,7 +36,7 @@ global MICS_HH_DATA 	hh.dta 	//Household dataset
 global MICS_HM_DATA 	hl.dta 	//Household list/member dataset
 global MICS_WM_DATA 	wm.dta 	//Women's /TT dataset
 global MICS_CH_DATA 	ch.dta 	//Child dataset/RI & SIA
-global MICS_HF_DATA				// Register data if separate dataset from CH data
+global MICS_HF_DATA				//Register data if separate dataset from CH data
 
 
 ********************************************************************************
@@ -61,7 +61,8 @@ global HH_ID 					hh2
 * You can edit the MICS to VCQI -levels of datasets program if you do not want to use these values for Level2 and Level3.
 * If the below globals are not populated, you will need to edit the program MICS to VCQI -levels of datasets to create these datasets.
 
-* You will also need to edit the program MICS to VCQI -levels if you want to change the order. Current order is _n by levelid.
+* You will also need to edit the program MICS to VCQI -levels if you want to change the order.
+* Current order is _n by levelid.
 * See user guide for specifics around each level
 
 * Name of Nation to be used in LEVEL1 dataset name
@@ -107,6 +108,8 @@ global SEX 						hl4
 
 * Set the below global if date of birth data was collected in the HH/HM survey 1==yes 0==NO
 global HH_DOB					1
+
+* Populate the below with the variable names that correspond tot he global names
 global DATE_OF_BIRTH_MONTH		hl5m		// OPTIONAL -can be blank if not available
 global DATE_OF_BIRTH_YEAR		hl5y		// OPTIONAL -can be blank if not available
 global DATE_OF_BIRTH_DAY					// OPTIONAL -can be blank if not available
@@ -118,8 +121,8 @@ global AGE_MONTHS 							// OPTIONAL -can be blank if not available
 ********************************************************************************
 
 * * The below need to be defined to create CM DATASET
-* Provide the variable for the Post-stratified sampling weight for one-year cohorts (RI & TT)
 
+* Provide the variable for the Post-stratified sampling weight for one-year cohorts (RI & TT)
 global PSWEIGHT_1YEAR 			hhweight
 
 * Provide the variable for the Post-stratified sampling weight for SIA cohort
@@ -146,7 +149,6 @@ global RI_MIN_AGE				9
 global RI_MAX_AGE				24
 
 * Populate the below with the variable names that correspond to the global name if the RI Survey was completed
-
 global CARD_EVER_RECEIVED 		im2
 global CARD_SEEN 				im1
 
@@ -171,8 +173,7 @@ global CHILD_AGE_MONTHS			cage 		// OPTIONAL -can be blank if not available
 * House member line number in Child dataset
 global RI_LINE 					uf4
 
-
-* Are there variable for CARD DOB? 1== yes 0==No
+* Are there variables for CARD DOB? 1== yes 0==No
 global CARD_DOB					1
 
 * Child Date of Birth per CARD
@@ -184,9 +185,10 @@ global CHILD_DOB_CARD_YEAR      			// OPTIONAL -can be blank if not available if
 
 * Populate the below doses with the proper variable name per CARD DATA
 * NOTE: If the vaccine is not part of the survey, leave it bank
+* NOTE: If a vaccine is not listed below, create the globals with the same dose name provided in RI_LIST
 
 * Provide a complete list of the RI doses, use the same dose names as the globals below
-* all dose numbers must be provided, so if there are three doses provide the dose1 dose2 dose3.
+* All dose numbers must be provided, so if there are three doses provide the dose1 dose2 dose3.
 
 global RI_LIST 		bcg opv0 opv1 opv2 opv3 dpt1 dpt2 dpt3
 
@@ -279,8 +281,8 @@ global HIB3_DATE_CARD_YEAR
 
 * Populate the below doses with the proper variable name per HIST DATA
 * NOTE: If the vaccine is not part of the survey, leave it bank
-
-* *_DOSE_NUM is the question that indicates how many doses the caretaker says the child received.
+* NOTE: If a vaccine is not listed below, create the globals with the same dose name provided in RI_LIST
+* NOTE: *_DOSE_NUM is the question that indicates how many doses the caretaker says the child received.
 
 * BCG 
 global BCG_DOSE_NUM					1
@@ -325,6 +327,10 @@ global HIB_DOSE_NUM
 global HIB_HIST
 
 
+* Additional variables to keep (usually multiple choice questions)
+* e.g. religion, education etc
+global RI_ADDITIONAL_VARS
+
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************
@@ -351,6 +357,7 @@ global CHILD_DOB_REG_YEAR 		hf12y
 
 * Populate the below doses with the proper variable name per HEALTH CENTER/REGISTER DATA
 * NOTE: If the vaccine is not part of the survey, leave it bank
+* NOTE: If a vaccine is not listed below, create the globals with the same dose name provided in RI_LIST
 
 * BCG 
 global BCG_DATE_REG_MONTH
@@ -475,6 +482,7 @@ global SIA_MAX_AGE_C
 * Populate the below with the variable names that correspond to the global name
 * Variable that indicates if child was vaccinated in SIA campaign.
 * NOTE These only need to be populated for the campaigns that were completed.
+* NOTE These are typically found in the children's dataset.
 global SIA_A					im19a
 global SIA_B					im19b
 global SIA_C					
@@ -483,24 +491,24 @@ global SIA_C
 ********************************************************************************
 ********************************************************************************
 
-* * The below need to be defined to create tt DATASET
-* Was the TT/Womens survey completed? 1 yes, 0 no
+* * The below need to be defined to create TT DATASET
+* Was the TT/Women's survey completed? 1 yes, 0 no
 global TT_SURVEY				1
 
 * Outcome for TT survey if survey completed
 * Example completed, refused, incomplete
 global TT_DISPOSITION 			wm7
 
-* Populate the below with the appropriate ages in months for the Womens TT Survey if TT Survey completed
+* Populate the below with the appropriate ages in months for the Women's TT Survey if TT Survey completed
 global TT_MIN_AGE				`=15*12'
 global TT_MAX_AGE				`=50*12'	
 
-* Populate the below with the variable names that correspond to the global name if the TT Survey was completed
 
-* House member line number in Womens dataset
+* Populate the below with the variable names that correspond to the global name if the TT Survey was completed
+* House member line number in Women's dataset
 global TT_LINE 					wm4
 
-* Date of TT/Womens interview
+* Date of TT/Women's interview
 global TT_DATE_MONTH 			wm6m
 global TT_DATE_DAY 				wm6d
 global TT_DATE_YEAR 			wm6y
@@ -508,7 +516,7 @@ global TT_DATE_YEAR 			wm6y
 * Populate the below if Mother DOB was collected 1==yes, 0==no
 global MOTHER_DOB				1
 
-* Womens Date of birth
+* Women's Date of birth
 global MOTHER_DOB_MONTH			wb1m
 global MOTHER_DOB_YEAR			wb1y
 global MOTHER_DOB_DAY						// OPTIONAL -can be blank if not available
@@ -530,13 +538,14 @@ global TT_PREGNANCY 			mn6
 * Number of TT doses received during last pregnancy
 global NUM_TT_PREGNANCY 		mn7
 
-* TT received at anytime prior to last pregnancy? When not pregnant or previous pregnancy
+* TT received at any time prior to last pregnancy?
+* When not pregnant or previous pregnancy
 global TT_ANYTIME 				mn9
 
 * Number of TT doses received prior to last pregnancy
 global NUM_TT_ANYTIME 			mn10
 
-* Month and Year of tt dose
+* Month and Year of TT dose
 global LAST_TT_MONTH			tt7m		// OPTIONAL -can be blank if not available
 global LAST_TT_YEAR				tt7y		// OPTIONAL -can be blank if not available
 

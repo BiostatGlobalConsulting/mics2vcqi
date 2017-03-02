@@ -1,6 +1,6 @@
 /**********************************************************************
-Program Name:               mics to VCQI -SIA dataset
-Purpose:                     Code to create VCQI dataset using mics questionnaire
+Program Name:               MICS to VCQI - SIA dataset
+Purpose:                    Code to create VCQI dataset using mics questionnaire
 Project:                    Q:\- WHO mics VCQI-compatible\mics manuals
 Charge Number:  
 Date Created:    			2016-04-28
@@ -20,7 +20,7 @@ if $SIA_SURVEY==1 {
 	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
-	* cd to OUTPUT local
+	* cd to Output folder
 	cd "$OUTPUT_FOLDER"
 
 	save MICS_${MICS_NUM}_to_VCQI_SIA, replace 
@@ -44,7 +44,7 @@ if $SIA_SURVEY==1 {
 	}
 	
 
-	* Drop child if they did not participant in any campagin
+	* Only keep child child if they did participant in a campagin
 	keep if sia_participant==1
 
 	* Drop all variables except SIA

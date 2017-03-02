@@ -1,5 +1,5 @@
 /**********************************************************************
-Program Name:               mics to VCQI -RIHC dataset
+Program Name:               MICS to VCQI - RIHC dataset
 Purpose:                    Code to create VCQI dataset using mics questionnaire
 Project:                    Q:\- WHO mics VCQI-compatible\mics manuals
 Charge Number:  
@@ -19,7 +19,7 @@ if $RIHC_SURVEY==1 {
 	use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 
-	* cd to OUTPUT local
+	* cd to Output folder
 	cd "$OUTPUT_FOLDER"
 
 	save MICS_${MICS_NUM}_to_VCQI_RIHC, replace 
