@@ -558,4 +558,4 @@ if !_rc {
 set more off
 
 * Run the program to create the datasets
-do "${RUN_FOLDER}/Step00- VCQI Conversion Steps.do" // Runs all the necessary steps to make dataset VCQI compatible
+do "${RUN_FOLDER}/Step00 - VCQI Conversion Steps.do" // Runs all the necessary steps to make dataset VCQI compatible
