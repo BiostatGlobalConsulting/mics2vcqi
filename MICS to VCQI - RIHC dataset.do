@@ -45,5 +45,27 @@ if $RIHC_SURVEY==1 {
 
 	save "MICS_${MICS_NUM}_to_VCQI_RIHC", replace
 	
+	* Save dataset for age groups
+	* Age 12-23m
+	use "MICS_${MICS_NUM}_to_VCQI_RIHC", clear
+	keep if age_months >=12 & age_months <=23
+	save "MICS_${MICS_NUM}_to_VCQI_RIHC_12_to_23", replace 
 
+	
+	* If max age is greather than 23m 
+	* Make a second dataset that captures 24m to $RI_MAX_AGE
+	if $RI_MAX_AGE >23 {
+		use "MICS_${MICS_NUM}_to_VCQI_RIHC", clear
+		keep if age_months >=24 & age_months <=$RI_MAX_AGE
+		save "MICS_${MICS_NUM}_to_VCQI_RIHC_24_to_${RI_MAX_AGE}", replace 
+	}
+
+	
+	* If min age does not equal 12
+	* Make a dataset with the ages provided
+	if $RI_MIN_AGE != 12 { 
+		use "MICS_${MICS_NUM}_to_VCQI_RIHC", clear
+		keep if age_months >=$RI_MIN_AGE & age_months <=$RI_MAX_AGE
+		save "MICS_${MICS_NUM}_to_VCQI_RIHC_${RI_MIN_AGE}_to_${RI_MAX_AGE}", replace 
+	}
 }
