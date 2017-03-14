@@ -739,8 +739,8 @@ if $RI_SURVEY==1 {
 			
 		if "0"==substr("`d'",-1,1) { // if the dose is at birth, need to look at the specific at birth variable for history
 
-			* Replace the history for multiple doses
-			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1 & (${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM} >= `i') & !missing(${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM})  
+			* Replace the history for at birth doses
+			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1  
 		}
 		else {
 				* Replace the history for multiple doses
