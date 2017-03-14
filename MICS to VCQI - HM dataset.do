@@ -32,7 +32,7 @@ drop if HM19!=4
 save, replace
 
 * Save dataset for each SIA survey and rename each HM25 variable
-if "$SIA_SURVEY"=="1" 
+if "$SIA_SURVEY"=="1" {
 	foreach v in `=lower("${SIA_LIST}")' {
 		use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_to_VCQI_HM", clear
 		rename HM41_`v' HM41
