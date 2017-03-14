@@ -345,10 +345,8 @@ label variable HH24 "# of Eligible Respondents: Gave Live Birth in Last 12 Month
 		}
 	}
 	else {
-		foreach v in `=lower("${SIA_LIST}")' {
-			egen HH25_`v'=0
-			label variable HH25_`v' "# of Eligible Respondents: Post-Campaign Survey"
-		}
+		gen HH25=0
+		label variable HH25 "# of Eligible Respondents: Post-Campaign Survey"
 	}
 
 
