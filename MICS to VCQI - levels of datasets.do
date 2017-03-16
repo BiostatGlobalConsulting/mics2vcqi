@@ -32,10 +32,7 @@ keep $PROVINCE_ID
 sort $PROVINCE_ID
 rename $PROVINCE_ID level2id
 gen level2name = ""
-local l `:value label level2id'
-forvalues i = 1/`=_N' {
-	replace level2name = "`:label `l' `=level2id[`i']''" in `i'
-}
+decode level2id, generate(level2name)
 label value level2id
 save level2names, replace
 
@@ -70,10 +67,7 @@ else {
 	sort $LEVEL_3_ID
 	rename $LEVEL_3_ID level3id
 	gen level3name = ""
-	local l `:value label level3id'
-	forvalues i = 1/`=_N' {
-		replace level3name= "`:label `l' `=level3id[`i']''" in `i'
-	}
+	decode level3id, generate(level3name)
 	label value level3id 
 	save level3names, replace
 }
