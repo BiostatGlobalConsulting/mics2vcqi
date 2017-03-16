@@ -32,8 +32,9 @@ keep $PROVINCE_ID
 sort $PROVINCE_ID
 rename $PROVINCE_ID level2id
 gen level2name = ""
+local l `:value label level2id'
 forvalues i = 1/`=_N' {
-	replace level2name = "`:label `=subinstr("$PROVINCE_ID","MICS_${MICS_NUM}_","",.)' `=level2id[`i']''" in `i'
+	replace level2name = "`:label `l' `=level2id[`i']''" in `i'
 }
 label value level2id
 save level2names, replace
@@ -69,8 +70,9 @@ else {
 	sort $LEVEL_3_ID
 	rename $LEVEL_3_ID level3id
 	gen level3name = ""
+	local l `:value label level3id'
 	forvalues i = 1/`=_N' {
-		replace level3name= "`:label `=subinstr("$LEVEL_3_ID","MICS_${MICS_NUM}_","",.)' `=level3id[`i']''" in `i'
+		replace level3name= "`:label `l' `=level3id[`i']''" in `i'
 	}
 	label value level3id 
 	save level3names, replace
@@ -92,9 +94,10 @@ bysort $LEVEL_4_ID: keep if _n == 1
 keep $LEVEL_4_ID
 sort $LEVEL_4_ID
 rename $LEVEL_4_ID level4id
+local l `:value label level4id'
 gen level4name = ""
 forvalues i = 1/`=_N' {
-	replace level4name = "`:label `=subinstr("$LEVEL_4_ID","MICS_${MICS_NUM}_","",.)' `=level4id[`i']''" in `i'
+	replace level4name = "`:label `l' `=level4id[`i']''" in `i'
 }
 label value level4id
 save level4names, replace
