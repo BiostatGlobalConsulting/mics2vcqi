@@ -345,10 +345,8 @@ label variable HH24 "# of Eligible Respondents: Gave Live Birth in Last 12 Month
 		}
 	}
 	else {
-		foreach v in `=lower("${SIA_LIST}")' {
-			egen HH25_`v'=0
-			label variable HH25_`v' "# of Eligible Respondents: Post-Campaign Survey"
-		}
+		gen HH25=0
+		label variable HH25 "# of Eligible Respondents: Post-Campaign Survey"
 	}
 
 
@@ -566,19 +564,21 @@ if $RI_SURVEY==1 {
 	clonevar RI12=${RI_LINE}
 
 	* Create RI26 Vaccination Card ever received?
-	if inlist(${MICS_NUM},5,4) {
-		clonevar RI26=${CARD_EVER_RECEIVED}
-		
-		* Replace RI26=1 if ${CARD_SEEN} equals 1 or 2 as these are not included in the ${CARD_EVER_RECEIVED} variable
-		replace RI26=1 if inlist(${CARD_SEEN},1,2)
-		
-		* Replace the idk value to correspond to VCQI
-		replace RI26=99 if RI26==8
-		
-		* Replace all other values with missing
-		replace RI26=. if !inlist(RI26,1,2,99)
+	if "$CARD_EVER_RECEIVED"!="" & "$CARD_EVER_RECEIVED"!="$CARD_SEEN" {
+		if inlist(${MICS_NUM},5,4) {
+			clonevar RI26=${CARD_EVER_RECEIVED}
+			
+			* Replace RI26=1 if ${CARD_SEEN} equals 1 or 2 as these are not included in the ${CARD_EVER_RECEIVED} variable
+			replace RI26=1 if inlist(${CARD_SEEN},1,2)
+			
+			* Replace the idk value to correspond to VCQI
+			replace RI26=99 if RI26==8
+			
+			* Replace all other values with missing
+			replace RI26=. if !inlist(RI26,1,2,99)
+		}
 	}
-	else if ${MICS_NUM}==3 {
+	else {
 		gen RI26=.
 		label variable RI26 "Ever received vaccination card?"
 		
@@ -739,8 +739,8 @@ if $RI_SURVEY==1 {
 			
 		if "0"==substr("`d'",-1,1) { // if the dose is at birth, need to look at the specific at birth variable for history
 
-			* Replace the history for multiple doses
-			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1 & (${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM} >= `i') & !missing(${`=substr("`g'",1,length("`g'")-1)'_DOSE_NUM})  
+			* Replace the history for at birth doses
+			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1  
 		}
 		else {
 				* Replace the history for multiple doses
