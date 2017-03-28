@@ -27,5 +27,5 @@ program define make_subset_RI_and_RIHC_datasets
 	
 		no di "Save subset file as `inputpath'_`minage'_to_`maxage'"
 		save "`inputpath'_`minage'_to_`maxage'", replace 
-	
+	}
 end	
