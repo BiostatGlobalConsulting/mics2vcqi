@@ -615,7 +615,9 @@ if $RI_SURVEY==1 {
 	label define card_seen 1 "Yes, Card Seen" 2 "No, Card Not Seen", replace
 	label value RI27 card_seen
 	
-
+	* Create RI20 (sex)
+	clonevar RI20=HM27
+	
 	**********************************************************************************
 	*Create dob for child history and card register if RIHC records sought
 	local g history card 
