@@ -523,6 +523,9 @@ save, replace
 if "$PROVINCE_ID"=="" | "$PROVINCE_ID"=="1" {
 	gen province_id=1
 	label variable province_id "Level2"
+	label define level2 1 "Level2"
+	label value province_id level2
+
 	global PROVINCE_ID	province_id
 }
 else {
