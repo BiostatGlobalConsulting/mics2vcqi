@@ -294,10 +294,12 @@ global OPV0_HIST					im9
 
 * OPV
 global OPV_DOSE_NUM					im10
+global OPV_DOSE_NUM_MISSING			9 // if im10 is 9 it means missing...not 9
 global OPV_HIST						im8
 
 * DPT or PENTA doses 1-3
 global DPT_DOSE_NUM					im12
+global DPT_DOSE_NUM_MISSING			9 // if im12b is 9 it means missing, not 9
 global DPT_HIST						im11
 
 
@@ -321,9 +323,15 @@ global YF_HIST						im17
 global VITA_DOSE_NUM				1
 global VITA_HIST					im18
 
+* PCV
+global PCV_DOSE_NUM					im15b
+global PCV_DOSE_NUM_MISSING			9 // if im15b is 9, it means missing...not 9
+global PCV_HIST						im15a
+
 
 * HIB doses 1-3
 global HIB_DOSE_NUM
+global HIB_DOSE_NUM_MISSING			9 // if im15b is 9, it means missing...not 9
 global HIB_HIST
 
 

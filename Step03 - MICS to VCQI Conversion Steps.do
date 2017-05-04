@@ -768,8 +768,9 @@ if $RI_SURVEY==1 {
 			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1  
 		}
 		else {
-				* Replace the history for multiple doses
-			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  
+			* Replace the history for multiple doses
+			if "${`=upper("`g'")'_DOSE_NUM_MISSING}"=="" replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  
+			else                                         replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  & (${`=upper("`g'")'_DOSE_NUM} != ${`=upper("`g'")'_DOSE_NUM_MISSING})
 		}
 		
 		* Replace all other values with missing
@@ -804,9 +805,12 @@ if $RI_SURVEY==1 {
 	foreach g in `s' {
 		di "`s'"
 		foreach v in `=lower("${RI_LIST}")' {
-			foreach m in m d y {
-				replace `v'_date_`g'_`m'=. if inlist(`v'_date_`g'_`m',0,44,4444,66,6666)
-			}
+			replace `v'_date_`g'_y = . if `v'_date_`g'_y > 9000
+			replace `v'_date_`g'_y = . if inlist(`v'_date_`g'_y,0,44,4444,66,6666)
+			replace `v'_date_`g'_m = . if `v'_date_`g'_m > 12
+			replace `v'_date_`g'_m = . if inlist(`v'_date_`g'_m,0)
+			replace `v'_date_`g'_d = . if `v'_date_`g'_d > 31
+			replace `v'_date_`g'_d = . if inlist(`v'_date_`g'_d,0)
 		}
 	}
 
