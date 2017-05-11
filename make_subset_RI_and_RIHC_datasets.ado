@@ -1,21 +1,46 @@
 /**********************************************************************
 Program Name:               make_subset_RI_and_RIHC_datasets
-Purpose:                    Code to create VCQI dataset using mics questionnaire
+Purpose:                    Code to create user specified subset VCQI dataset using mics2vcqi RI and RIHC dataset.
 Project:                    Q:\- WHO mics VCQI-compatible\mics manuals
 Charge Number:  
 Date Created:    			2017-03-28
 Date Modified:  
 Input Data:                 
 Output2:                                
-Comments: Take mics combined dataset with new VCQI variables and create datasets so that the data can be run through VCQI
+Comments: 
 Author:         Mary Kay Trimner
 
 Stata version:    14.0
 **********************************************************************/
+* This program is used to create a new dataset that contains a specific subset of RI participants
+* For example: If you only want to run an analysis on children age 12-23 months
+
+********************************************************************************
+* Program Syntax
+*
+* Required Option:
+*
+* MINAGE -- 	format: 		integer
+*				description:	minimum age in months of children to be included in RI analysis
+*
+* MAXAGE --		format:			integer
+* 				description:	maximum age in months of children to be included in RI analysis
+*
+* INPUTPATH --	format: 		string
+*				description:	path and name of RI or RIHC dataset
+*				note1:			RI or RIHC dataset must be created through the mics2vcqi conversion program
+*				
+*
+********************************************************************************
+********************************************************************************
+* General Notes:
+* This program will need to be ran on RI and RIHC datasets seperately
+*
+********************************************************************************
 capture program drop make_subset_RI_and_RIHC_datasets
 program define make_subset_RI_and_RIHC_datasets
 
-	syntax ,  MINage(string asis) MAXage(string asis) INPUTpath(string asis)
+	syntax ,  MINage(integer) MAXage(integer) INPUTpath(string asis)
 	
 	quietly {
 	
