@@ -40,7 +40,7 @@ Stata version:    14.0
 capture program drop make_subset_RI_and_RIHC_datasets
 program define make_subset_RI_and_RIHC_datasets
 
-	syntax ,  MINage(string asis) MAXage(string asis) INPUTpath(string asis)
+	syntax ,  MINage(integer) MAXage(integer) INPUTpath(string asis)
 	
 	quietly {
 	
