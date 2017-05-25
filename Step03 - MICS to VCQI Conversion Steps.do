@@ -72,7 +72,7 @@ foreach d in MONTH DAY YEAR {
 	
 	
 	foreach v in `=subinstr("`vlist`d''",","," ",.)' { //replace "," with space " " for purposes of doing replacement
-			replace `v'=. if inlist(`v',99,98,9999,9998) 
+			replace `v'=. if inlist(`v',99,98,9999,9998,97,9997) // These are invalid dob values
 	}
 
 	di "`vlist`d''"
@@ -673,7 +673,7 @@ if $RI_SURVEY==1 {
 			
 			if "${CHILD_DOB_`i'_`c'}"!="" {
 				replace dob_date_`v'_`d'=${CHILD_DOB_`i'_`c'} 
-				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666)
+				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666,97,9997,98,9998,99,9999)
 			}
 		}
 	}
@@ -718,7 +718,9 @@ if $RI_SURVEY==1 {
 			
 			* Create tick marks for each dose 
 			gen `d'_tick_`v'=.
-			replace `d'_tick_`v'=1 if inlist(`d'_date_`v'_m,44,4444) | inlist(`d'_date_`v'_d,44,4444) | inlist(`d'_date_`v'_y,44,4444)
+			replace `d'_tick_`v'=1 if inlist(`d'_date_`v'_m,44,4444,97,9997) | ///
+										inlist(`d'_date_`v'_d,44,4444,97,9997) | ///
+										inlist(`d'_date_`v'_y,44,4444,97,9997) // Replacing tick as 44 indicates tick on form and 97 value indicates inconsistent
 			
 			label variable `d'_tick_`v' "`d' tick mark on `v'"
 
@@ -768,8 +770,9 @@ if $RI_SURVEY==1 {
 			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1  
 		}
 		else {
-				* Replace the history for multiple doses
-			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  
+			* Replace the history for multiple doses
+			if "${`=upper("`g'")'_DOSE_NUM_MISSING}"=="" replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  
+			else                                         replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  & (${`=upper("`g'")'_DOSE_NUM} != ${`=upper("`g'")'_DOSE_NUM_MISSING})
 		}
 		
 		* Replace all other values with missing
@@ -801,12 +804,16 @@ if $RI_SURVEY==1 {
 		local s card register
 	}
 
+
 	foreach g in `s' {
 		di "`s'"
 		foreach v in `=lower("${RI_LIST}")' {
-			foreach m in m d y {
-				replace `v'_date_`g'_`m'=. if inlist(`v'_date_`g'_`m',0,44,4444,66,6666)
-			}
+			replace `v'_date_`g'_y = . if `v'_date_`g'_y > 9000
+			replace `v'_date_`g'_y = . if inlist(`v'_date_`g'_y,0,44,4444,66,6666)
+			replace `v'_date_`g'_m = . if `v'_date_`g'_m > 12
+			replace `v'_date_`g'_m = . if inlist(`v'_date_`g'_m,0)
+			replace `v'_date_`g'_d = . if `v'_date_`g'_d > 31
+			replace `v'_date_`g'_d = . if inlist(`v'_date_`g'_d,0)
 		}
 	}
 
