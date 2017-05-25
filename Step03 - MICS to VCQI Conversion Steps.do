@@ -72,7 +72,7 @@ foreach d in MONTH DAY YEAR {
 	
 	
 	foreach v in `=subinstr("`vlist`d''",","," ",.)' { //replace "," with space " " for purposes of doing replacement
-			replace `v'=. if inlist(`v',99,98,9999,9998) 
+			replace `v'=. if inlist(`v',99,98,9999,9998,97,9997) // These are invalid dob values
 	}
 
 	di "`vlist`d''"
@@ -673,7 +673,7 @@ if $RI_SURVEY==1 {
 			
 			if "${CHILD_DOB_`i'_`c'}"!="" {
 				replace dob_date_`v'_`d'=${CHILD_DOB_`i'_`c'} 
-				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666)
+				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666,97,9997,98,9998,99,9999)
 			}
 		}
 	}
@@ -718,7 +718,9 @@ if $RI_SURVEY==1 {
 			
 			* Create tick marks for each dose 
 			gen `d'_tick_`v'=.
-			replace `d'_tick_`v'=1 if inlist(`d'_date_`v'_m,44,4444) | inlist(`d'_date_`v'_d,44,4444) | inlist(`d'_date_`v'_y,44,4444)
+			replace `d'_tick_`v'=1 if inlist(`d'_date_`v'_m,44,4444,97,9997) | ///
+										inlist(`d'_date_`v'_d,44,4444,97,9997) | ///
+										inlist(`d'_date_`v'_y,44,4444,97,9997) // Replacing tick as 44 indicates tick on form and 97 value indicates inconsistent
 			
 			label variable `d'_tick_`v' "`d' tick mark on `v'"
 
@@ -801,6 +803,7 @@ if $RI_SURVEY==1 {
 	if $RIHC_SURVEY==1 {
 		local s card register
 	}
+
 
 	foreach g in `s' {
 		di "`s'"
