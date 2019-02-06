@@ -7,6 +7,14 @@ Date Created:    			2016-04-28
 Author:         Mary Kay Trimner
 Stata version:    14.0
 ********************************************************************************/
+**********************************************************************/
+
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+* 2019-02-06	1.02	MK Trimner		Removed history dob from card if not provided
+*******************************************************************************
 
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
@@ -676,12 +684,6 @@ if $RI_SURVEY==1 {
 				replace dob_date_`v'_`d'=. if inlist(dob_date_`v'_`d',44,4444,66,6666)
 			}
 		}
-	}
-
-	* If no card dob data provided, replace with history dob information 
-	foreach d in m d y {
-		replace dob_date_card_`d'=dob_date_history_`d' if missing(dob_date_card_`d') & !missing(dob_date_history_`d')
-		
 	}
 
 	* Create all card and register variables
