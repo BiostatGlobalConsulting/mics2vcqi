@@ -18,6 +18,7 @@ Stata version:    14.0
 *				version
 * Date 			number 	Name			What Changed
 * 2019-02-06	1.02	MK Trimner		Made the names proper case
+* 2019-07-24	1.03	MK Trimner		Removed extra level2name so decode works
 *******************************************************************************
 * Bring in Combined dataset
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
@@ -39,7 +40,6 @@ bysort $PROVINCE_ID: keep if _n == 1
 keep $PROVINCE_ID
 sort $PROVINCE_ID
 rename $PROVINCE_ID level2id
-gen level2name = ""
 decode level2id, generate(level2name)
 replace level2name = proper(level2name)
 label value level2id
