@@ -368,90 +368,92 @@ global CHILD_DOB_REG_YEAR 		hf12y
 * NOTE: If a vaccine is not listed below, create the globals with the same dose name provided in RI_LIST
 
 * BCG 
-global BCG_DATE_REG_MONTH
-global BCG_DATE_REG_DAY
-global BCG_DATE_REG_YEAR
+global BCG_DATE_REG_MONTH			
+global BCG_DATE_REG_DAY			
+global BCG_DATE_REG_YEAR			
 
 * OPV at Birth
-global OPV0_DATE_REG_MONTH
-global OPV0_DATE_REG_DAY
-global OPV0_DATE_REG_YEAR
+global OPV0_DATE_REG_MONTH			
+global OPV0_DATE_REG_DAY			
+global OPV0_DATE_REG_YEAR			
 
 * OPV doses 1-3
-global OPV1_DATE_REG_MONTH
-global OPV1_DATE_REG_DAY
-global OPV1_DATE_REG_YEAR
+global OPV1_DATE_REG_MONTH			
+global OPV1_DATE_REG_DAY			
+global OPV1_DATE_REG_YEAR			
 
-global OPV2_DATE_REG_MONTH
-global OPV2_DATE_REG_DAY
-global OPV2_DATE_REG_YEAR
+global OPV2_DATE_REG_MONTH			
+global OPV2_DATE_REG_DAY			
+global OPV2_DATE_REG_YEAR			
 
-global OPV3_DATE_REG_MONTH
-global OPV3_DATE_REG_DAY
-global OPV3_DATE_REG_YEAR
+global OPV3_DATE_REG_MONTH			
+global OPV3_DATE_REG_DAY			
+global OPV3_DATE_REG_YEAR			
 
 * DPT or PENTA doses 1-3
-global DPT1_DATE_REG_MONTH
-global DPT1_DATE_REG_DAY
-global DPT1_DATE_REG_YEAR
+global PENTA1_DATE_REG_MONTH		
+global PENTA1_DATE_REG_DAY			
+global PENTA1_DATE_REG_YEAR		
 
-global DPT2_DATE_REG_MONTH
-global DPT2_DATE_REG_DAY
-global DPT2_DATE_REG_YEAR
+global PENTA2_DATE_REG_MONTH		
+global PENTA2_DATE_REG_DAY			
+global PENTA2_DATE_REG_YEAR		
 
-global DPT3_DATE_REG_MONTH
-global DPT3_DATE_REG_DAY
-global DPT3_DATE_REG_YEAR
+global PENTA3_DATE_REG_MONTH		
+global PENTA3_DATE_REG_DAY			
+global PENTA3_DATE_REG_YEAR		
 
 * Measles or MMR or MR
-global MCV_DATE_REG_MONTH
-global MCV_DATE_REG_DAY
-global MCV_DATE_REG_YEAR
+global MEAS1_DATE_REG_MONTH		
+global MEAS1_DATE_REG_DAY			
+global MEAS1_DATE_REG_YEAR			
 
-* Hepb at birth
-global HEPB0_DATE_REG_MONTH
-global HEPB0_DATE_REG_DAY
-global HEPB0_DATE_REG_YEAR
+global MEAS2_DATE_REG_MONTH		
+global MEAS2_DATE_REG_DAY			
+global MEAS2_DATE_REG_YEAR			
 
-* Hepb doses 1-3
-global HEPB1_DATE_REG_MONTH
-global HEPB1_DATE_REG_DAY
-global HEPB1_DATE_REG_YEAR
 
-global HEPB2_DATE_REG_MONTH
-global HEPB2_DATE_REG_DAY
-global HEPB2_DATE_REG_YEAR
+* Vitamin A
+global VITA1_DATE_REG_MONTH		
+global VITA1_DATE_REG_DAY			
+global VITA1_DATE_REG_YEAR			
 
-global HEPB3_DATE_REG_MONTH
-global HEPB3_DATE_REG_DAY
-global HEPB3_DATE_REG_YEAR
+global VITA2_DATE_REG_MONTH		
+global VITA2_DATE_REG_DAY			
+global VITA2_DATE_REG_YEAR			
 
 * Yellow Fever
-global YF_DATE_REG_MONTH
-global YF_DATE_REG_DAY
-global YF_DATE_REG_YEAR
+global YF_DATE_REG_MONTH			
+global YF_DATE_REG_DAY				
+global YF_DATE_REG_YEAR			
 
-* Vitamin A doses 1-2
-global VITA1_DATE_REG_MONTH
-global VITA1_DATE_REG_DAY
-global VITA1_DATE_REG_YEAR
+* Meningitis Men A
+global MENA_DATE_REG_MONTH			
+global MENA_DATE_REG_DAY			
+global MENA_DATE_REG_YEAR			
 
-global VITA2_DATE_REG_MONTH
-global VITA2_DATE_REG_DAY
-global VITA2_DATE_REG_YEAR
+* Hepb at birth
+global HEPB0_DATE_REG_MONTH		
+global HEPB0_DATE_REG_DAY			
+global HEPB0_DATE_REG_YEAR			
 
-* HIB doses 1-3
-global HIB1_DATE_REG_MONTH
-global HIB1_DATE_REG_DAY
-global HIB1_DATE_REG_YEAR
+* IPV
+global IPV_DATE_REG_MONTH			
+global IPV_DATE_REG_DAY			
+global IPV_DATE_REG_YEAR			
 
-global HIB2_DATE_REG_MONTH
-global HIB2_DATE_REG_DAY
-global HIB2_DATE_REG_YEAR
+* PCV doses 1-3
+global PCV1_DATE_REG_MONTH			
+global PCV1_DATE_REG_DAY			
+global PCV1_DATE_REG_YEAR			
 
-global HIB3_DATE_REG_MONTH
-global HIB3_DATE_REG_DAY
-global HIB3_DATE_REG_YEAR
+global PCV2_DATE_REG_MONTH			
+global PCV2_DATE_REG_DAY			
+global PCV2_DATE_REG_YEAR			
+
+global PCV3_DATE_REG_MONTH			
+global PCV3_DATE_REG_DAY			
+global PCV3_DATE_REG_YEAR			
 
 ********************************************************************************
 ********************************************************************************
