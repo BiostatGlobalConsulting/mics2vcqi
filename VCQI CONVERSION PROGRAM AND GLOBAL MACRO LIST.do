@@ -20,7 +20,7 @@ set maxvar 32767	// Change maxvar to the largest possible value to avoid errors 
 * However, some are not needed but if populated can help provide additional information to the dataset. These will be noted as optional.
 
 * Populate the below global with the version of MICS survey that is being used (example 3, 4, or 5)
-global MICS_NUM 4 
+global MICS_NUM 6 
 
 * Path where MICS to VCQI Conversion programs are saved
 global RUN_FOLDER 
@@ -46,13 +46,13 @@ global MICS_HF_DATA				//Register data if separate dataset from CH data
 *  The below global macros need to be defined to create HH, CM HM, RI, RIHC, SIA, TT DATASET
 *  Populate with corresponding variable name 
 * 
-global STRATUM_ID 				hh7
-global STRATUM_NAME				hh7
-global CLUSTER_ID 				hh1
-global CLUSTER_NAME 			hh1
+global STRATUM_ID 				HH7
+global STRATUM_NAME				HH7
+global CLUSTER_ID 				HH1
+global CLUSTER_NAME 			HH1
 
 * Household ID 
-global HH_ID 					hh2
+global HH_ID 					HH2
 
 * The below are used to populate the levels of datasets that VCQI uses.
 * They are not required but will be used to create level1 and level4 datasets if populated.
@@ -66,16 +66,16 @@ global HH_ID 					hh2
 * See user guide for specifics around each level
 
 * Name of Nation to be used in LEVEL1 dataset name
-global LEVEL1_NAME				NIGERIA			// OPTIONAL- If you do not populate you need to edit program to create the dataset
+global LEVEL1_NAME							// OPTIONAL- If you do not populate you need to edit program to create the dataset
 
 * Provide the variable for Province ID (Level2 name)
 global PROVINCE_ID 				1				// Populate with Variable Name or 1
 
 * Name of Level3 stratifier
-global LEVEL_3_ID				hh7				//OPTIONAL- If you do not populate you need to edit program to create the dataset
+global LEVEL_3_ID				HH7				//OPTIONAL- If you do not populate you need to edit program to create the dataset
 
 * Names for level 4
-global LEVEL_4_ID 				hh6				// OPTIONAL- If you do not populate you need to edit program to create the dataset
+global LEVEL_4_ID 				HH6				// OPTIONAL- If you do not populate you need to edit program to create the dataset
 *
 ********************************************************************************
 ********************************************************************************
@@ -84,9 +84,9 @@ global LEVEL_4_ID 				hh6				// OPTIONAL- If you do not populate you need to edi
 * * The below need to be defined to create HH DATASET
 
 * Date of HH interview
-global HH_DATE_MONTH 			hh5m
-global HH_DATE_DAY 				hh5d
-global HH_DATE_YEAR 			hh5y
+global HH_DATE_MONTH 			HH5m
+global HH_DATE_DAY 				HH5d
+global HH_DATE_YEAR 			HH5y
 
 ********************************************************************************
 ********************************************************************************
@@ -95,25 +95,25 @@ global HH_DATE_YEAR 			hh5y
 * * The below need to be defined to create HM DATASET
 
 * House member line number in HM dataset
-global HM_LINE 					hl1
+global HM_LINE 					HL1
 
 * Variable that provides the outcome of the overall survey
 * Example completed, refused, incomplete
-global OVERALL_DISPOSITION 		hh9
+global OVERALL_DISPOSITION 		HH46
 
 
 
 * Populate the below with the variable names that correspond to the global names
-global SEX 						hl4
+global SEX 						HL4
 
 * Set the below global if date of birth data was collected in the HH/HM survey 1==yes 0==NO
 global HH_DOB					1
 
 * Populate the below with the variable names that correspond tot he global names
-global DATE_OF_BIRTH_MONTH		hl5m		// OPTIONAL -can be blank if not available
-global DATE_OF_BIRTH_YEAR		hl5y		// OPTIONAL -can be blank if not available
+global DATE_OF_BIRTH_MONTH		HL5M		// OPTIONAL -can be blank if not available
+global DATE_OF_BIRTH_YEAR		HL5Y		// OPTIONAL -can be blank if not available
 global DATE_OF_BIRTH_DAY					// OPTIONAL -can be blank if not available
-global AGE_YEARS 				hl6 		// OPTIONAL -can be blank if not available
+global AGE_YEARS 				HL6 		// OPTIONAL -can be blank if not available
 global AGE_MONTHS 							// OPTIONAL -can be blank if not available
 	
 ********************************************************************************
@@ -123,13 +123,13 @@ global AGE_MONTHS 							// OPTIONAL -can be blank if not available
 * * The below need to be defined to create CM DATASET
 
 * Provide the variable for the Post-stratified sampling weight for one-year cohorts (RI & TT)
-global PSWEIGHT_1YEAR 			hhweight
+global PSWEIGHT_1YEAR 			chweight
 
 * Provide the variable for the Post-stratified sampling weight for SIA cohort
 global PSWEIGHT_SIA 			hhweight
 
 * Provide the variable that indicates if the area is urban or cluster
-global URBAN_CLUSTER 			hh6
+global URBAN_CLUSTER 			HH6
 
 ********************************************************************************
 ********************************************************************************
@@ -142,39 +142,40 @@ global RI_SURVEY				1
 
 * Outcome for each RI survey if survey completed
 * Example completed, refused, incomplete
-global RI_DISPOSITION 			uf9
+global RI_DISPOSITION 			UF17
 
 * Populate the below with the appropriate ages in months for the Child Survey if RI Survey completed
 global RI_MIN_AGE				9
 global RI_MAX_AGE				24
 
 * Populate the below with the variable names that correspond to the global name if the RI Survey was completed
-global CARD_EVER_RECEIVED 		im2
-global CARD_SEEN 				im1
+global CARD_EVER_RECEIVED 		IM3
+global HAS_CARD					IM2
+global CARD_SEEN 				IM5
 
 * Date of RI interview
-global RI_DATE_MONTH 			uf8m
-global RI_DATE_DAY 				uf8d
-global RI_DATE_YEAR 			uf8y
+global RI_DATE_MONTH 			UF7M
+global RI_DATE_DAY 				UF7D
+global RI_DATE_YEAR 			UF7Y
 
 * Child Date of Birth per history
 * NOTE either History or Card date of birth must be populated.
 * Both cannot be left blank.
-global CHILD_DOB_HIST_MONTH		ag1m 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_MONTH is provided
-global CHILD_DOB_HIST_DAY		ag1d 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_DAY is provided
-global CHILD_DOB_HIST_YEAR		ag1y 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_YEAR is provided
+global CHILD_DOB_HIST_MONTH		UB1M 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_MONTH is provided
+global CHILD_DOB_HIST_DAY		UB1D 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_DAY is provided
+global CHILD_DOB_HIST_YEAR		UB1Y 		// OPTIONAL -can be blank if not available if CHILD_DOB_CARD_YEAR is provided
 
 * Child Age in Years
-global CHILD_AGE_YEARS			ag2 		// OPTIONAL -can be blank if not available
+global CHILD_AGE_YEARS			UB2 		// OPTIONAL -can be blank if not available
 
 * Child Age in Months
-global CHILD_AGE_MONTHS			cage 		// OPTIONAL -can be blank if not available
+global CHILD_AGE_MONTHS			CAGE 		// OPTIONAL -can be blank if not available
 
 * House member line number in Child dataset
-global RI_LINE 					uf4
+global RI_LINE 					UF3
 
 * Are there variables for CARD DOB? 1== yes 0==No
-global CARD_DOB					1
+global CARD_DOB					0
 
 * Child Date of Birth per CARD
 * NOTE either History or Card date of birth must be populated.
@@ -190,142 +191,149 @@ global CHILD_DOB_CARD_YEAR      			// OPTIONAL -can be blank if not available if
 * Provide a complete list of the RI doses, use the same dose names as the globals below
 * All dose numbers must be provided, so if there are three doses provide the dose1 dose2 dose3.
 
-global RI_LIST 		bcg opv0 opv1 opv2 opv3 dpt1 dpt2 dpt3
+global RI_LIST 		bcg hepb0 opv0 opv1 opv2 opv3 ipv penta1 penta2 penta3 pcv1 pcv2 pcv3 meas1 meas2 yf mena vita1 vita2 
 
 * BCG 
-global BCG_DATE_CARD_MONTH				im3bm
-global BCG_DATE_CARD_DAY				im3bd
-global BCG_DATE_CARD_YEAR				im3by
+global BCG_DATE_CARD_MONTH				IM6BM
+global BCG_DATE_CARD_DAY				IM6BD
+global BCG_DATE_CARD_YEAR				IM6BY
 
 * OPV at Birth
-global OPV0_DATE_CARD_MONTH				im3p0m
-global OPV0_DATE_CARD_DAY				im3p0d
-global OPV0_DATE_CARD_YEAR				im3p0y
+global OPV0_DATE_CARD_MONTH				IM6P0M
+global OPV0_DATE_CARD_DAY				IM6P0D
+global OPV0_DATE_CARD_YEAR				IM6P0Y
 
 * OPV doses 1-3
-global OPV1_DATE_CARD_MONTH				im3p1m
-global OPV1_DATE_CARD_DAY				im3p1d
-global OPV1_DATE_CARD_YEAR				im3p1y
+global OPV1_DATE_CARD_MONTH				IM6P1M
+global OPV1_DATE_CARD_DAY				IM6P1D
+global OPV1_DATE_CARD_YEAR				IM6P1Y
 
-global OPV2_DATE_CARD_MONTH				im3p2m
-global OPV2_DATE_CARD_DAY				im3p2d
-global OPV2_DATE_CARD_YEAR				im3p2y
+global OPV2_DATE_CARD_MONTH				IM6P2M
+global OPV2_DATE_CARD_DAY				IM6P2D
+global OPV2_DATE_CARD_YEAR				IM6P2Y
 
-global OPV3_DATE_CARD_MONTH				im3p3m
-global OPV3_DATE_CARD_DAY				im3p3d
-global OPV3_DATE_CARD_YEAR				im3p3y
+global OPV3_DATE_CARD_MONTH				IM6P3M
+global OPV3_DATE_CARD_DAY				IM6P3D
+global OPV3_DATE_CARD_YEAR				IM6P3Y
 
 * DPT or PENTA doses 1-3
-global DPT1_DATE_CARD_MONTH				im3d1m
-global DPT1_DATE_CARD_DAY				im3d1d
-global DPT1_DATE_CARD_YEAR				im3d1y
+global PENTA1_DATE_CARD_MONTH			IM6PENTA1M
+global PENTA1_DATE_CARD_DAY				IM6PENTA1D
+global PENTA1_DATE_CARD_YEAR			IM6PENTA1Y
 
-global DPT2_DATE_CARD_MONTH				im3d2m
-global DPT2_DATE_CARD_DAY				im3d2d
-global DPT2_DATE_CARD_YEAR				im3d2y
+global PENTA2_DATE_CARD_MONTH			IM6PENTA2M
+global PENTA2_DATE_CARD_DAY				IM6PENTA2D
+global PENTA2_DATE_CARD_YEAR			IM6PENTA2Y
 
-global DPT3_DATE_CARD_MONTH				im3d3m
-global DPT3_DATE_CARD_DAY				im3d3d
-global DPT3_DATE_CARD_YEAR				im3d3y
+global PENTA3_DATE_CARD_MONTH			IM6PENTA3M
+global PENTA3_DATE_CARD_DAY				IM6PENTA3D
+global PENTA3_DATE_CARD_YEAR			IM6PENTA3Y
 
 * Measles or MMR or MR
-global MCV_DATE_CARD_MONTH				im3mm
-global MCV_DATE_CARD_DAY				im3md
-global MCV_DATE_CARD_YEAR				im3my
+global MEAS1_DATE_CARD_MONTH			IM6N1M
+global MEAS1_DATE_CARD_DAY				IM6N1D
+global MEAS1_DATE_CARD_YEAR				IM6N1Y
 
-* Hepb at birth
-global HEPB0_DATE_CARD_MONTH			im3h0m
-global HEPB0_DATE_CARD_DAY				im3h0d
-global HEPB0_DATE_CARD_YEAR				im3h0y
+global MEAS2_DATE_CARD_MONTH			IM6N2M
+global MEAS2_DATE_CARD_DAY				IM6N2D
+global MEAS2_DATE_CARD_YEAR				IM6N2Y
 
-* Hepb doses 1-3
-global HEPB1_DATE_CARD_MONTH			im3h1m
-global HEPB1_DATE_CARD_DAY				im3h1d
-global HEPB1_DATE_CARD_YEAR				im3h1y
 
-global HEPB2_DATE_CARD_MONTH			im3h2m
-global HEPB2_DATE_CARD_DAY				im3h2d
-global HEPB2_DATE_CARD_YEAR				im3h2y
+* Vitamin A
+global VITA1_DATE_CARD_MONTH			IM6Z1M
+global VITA1_DATE_CARD_DAY				IM6Z1D
+global VITA1_DATE_CARD_YEAR				IM6Z1Y
 
-global HEPB3_DATE_CARD_MONTH			im3h3m
-global HEPB3_DATE_CARD_DAY				im3h3d
-global HEPB3_DATE_CARD_YEAR				im3h3y
+global VITA2_DATE_CARD_MONTH			IM6Z2M
+global VITA2_DATE_CARD_DAY				IM6Z2D
+global VITA2_DATE_CARD_YEAR				IM6Z2Y
 
 * Yellow Fever
-global YF_DATE_CARD_MONTH				im3ym
-global YF_DATE_CARD_DAY					im3yd
-global YF_DATE_CARD_YEAR				im3yy
+global YF_DATE_CARD_MONTH				IM6YM
+global YF_DATE_CARD_DAY					IM6YD
+global YF_DATE_CARD_YEAR				IM6YY
 
-* Vitamin A doses 1-2
-global VITA1_DATE_CARD_MONTH			im3vm
-global VITA1_DATE_CARD_DAY				im3vd
-global VITA1_DATE_CARD_YEAR				im3vy
+* Meningitis Men A
+global MENA_DATE_CARD_MONTH				IM6MVM
+global MENA_DATE_CARD_DAY				IM6MVD
+global MENA_DATE_CARD_YEAR				IM6MVY
 
-global VITA2_DATE_CARD_MONTH
-global VITA2_DATE_CARD_DAY
-global VITA2_DATE_CARD_YEAR
+* Hepb at birth
+global HEPB0_DATE_CARD_MONTH			IM6H0M
+global HEPB0_DATE_CARD_DAY				IM6H0D
+global HEPB0_DATE_CARD_YEAR				IM6H0Y
 
-* HIB doses 1-3
-global HIB1_DATE_CARD_MONTH
-global HIB1_DATE_CARD_DAY
-global HIB1_DATE_CARD_YEAR
+* IPV
+global IPV_DATE_CARD_MONTH				IM6IM
+global IPV_DATE_CARD_DAY				IM6ID
+global IPV_DATE_CARD_YEAR				IM6IY
 
-global HIB2_DATE_CARD_MONTH
-global HIB2_DATE_CARD_DAY
-global HIB2_DATE_CARD_YEAR
+* PCV doses 1-3
+global PCV1_DATE_CARD_MONTH				IM6PCV1M
+global PCV1_DATE_CARD_DAY				IM6PCV1D
+global PCV1_DATE_CARD_YEAR				IM6PCV1Y
 
-global HIB3_DATE_CARD_MONTH
-global HIB3_DATE_CARD_DAY
-global HIB3_DATE_CARD_YEAR
+global PCV2_DATE_CARD_MONTH				IM6PCV2M
+global PCV2_DATE_CARD_DAY				IM6PCV2D
+global PCV2_DATE_CARD_YEAR				IM6PCV2Y
 
+global PCV3_DATE_CARD_MONTH				IM6PCV3M
+global PCV3_DATE_CARD_DAY				IM6PCV3D
+global PCV3_DATE_CARD_YEAR				IM6PCV3Y
 
 * Populate the below doses with the proper variable name per HIST DATA
 * NOTE: If the vaccine is not part of the survey, leave it bank
 * NOTE: If a vaccine is not listed below, create the globals with the same dose name provided in RI_LIST
 * NOTE: *_DOSE_NUM is the question that indicates how many doses the caretaker says the child received.
 
+
+//bcg hepb0 opv0 opv1 opv2 opv3 ipv penta1 penta2 penta3 pcv1 pcv2 pcv3 meas1 meas2 yf mena 
+
 * BCG 
 global BCG_DOSE_NUM					1
-global BCG_HIST						im7
+global BCG_HIST						IM14
 global BCG_SCAR						
 
 * OPV at Birth
-global OPV0_HIST					im9
+global OPV0_HIST					IM17
 
 * OPV
-global OPV_DOSE_NUM					im10
-global OPV_HIST						im8
+global OPV_DOSE_NUM					IM18
+global OPV_HIST						IM16
+
+* Need to also look this variable IM19 
+* Asks if also received injection with drops
+* CONFIRM THAT IM19 is for IPV_DATE_CARD_DAY
+global IPV_DOSE_NUM 				1
+global IPV_HIST						IM19
 
 * DPT or PENTA doses 1-3
-global DPT_DOSE_NUM					im12
-global DPT_HIST						im11
+global PENTA_DOSE_NUM				IM21
+global PENTA_HIST					IM20
 
+* PCV doses 1-3
+global PCV_DOSE_NUM					IM23
+global PCV_HIST						IM22
 
 * Measles or MMR or MR
-global MCV_DOSE_NUM					1
-global MCV_HIST						im16
+global MEAS_DOSE_NUM				IM26A
+global MEAS_HIST					IM26
 
 * Hepb at birth
-global HEPB0_HIST					im14
-
-* Hepb
-global HEPB_DOSE_NUM				im15
-global HEPB_HIST					im13
-
+global HEPB0_HIST					IM15
 
 * Yellow Fever
 global YF_DOSE_NUM					1
-global YF_HIST						im17
+global YF_HIST						IM27
 
 * Vitamin A doses 1-2
 global VITA_DOSE_NUM				1
-global VITA_HIST					im18
+global VITA_HIST					IM27B
 
 
-* HIB doses 1-3
-global HIB_DOSE_NUM
-global HIB_HIST
-
+* Meningitis A
+global MENA_DOSE_NUM				1
+global MENA_HIST 					IM27A
 
 * Additional variables to keep (usually multiple choice questions)
 * e.g. religion, education etc

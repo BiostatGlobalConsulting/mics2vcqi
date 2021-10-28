@@ -103,8 +103,11 @@ if $RI_SURVEY==1 {
 			di as error "Global macro `v' must be defined to complete the RI analysis"
 		}
 	}
-		
-	foreach v in RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN HAS_CARD ///
+	
+	* If it is MICS6 there is a new variable tha we want to use.
+	local has_card
+	if $MICS_NUM == 6 local HAS_CARD
+	foreach v in RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN `has_card' ///
 				  RI_DATE_MONTH RI_DATE_DAY RI_DATE_YEAR CHILD_DOB_HIST_MONTH CHILD_DOB_HIST_DAY ///
 				  CHILD_DOB_HIST_YEAR RI_LINE {
 			  
