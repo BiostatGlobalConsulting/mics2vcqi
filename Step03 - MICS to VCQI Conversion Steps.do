@@ -7,6 +7,19 @@ Date Created:    			2016-04-28
 Author:         Mary Kay Trimner
 Stata version:    14.0
 ********************************************************************************/
+*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name				What Changed
+* 2016-04-28	1.00	Mary Kay Trimner	Original
+* 2021-09-13	1.01	MK Trimner			adjusted to allow for version 6 of MICS survey
+* 2021-10-26								Made changes to history variables to better reflect what should be done
+*											Removed code to replace dob day to 1 if missing
+*											Removed code to populate dob_date_card to history if not populated
+*											Added code to account for opv0 doses and subtract from the total number of doses received.
+*											Added code to give credit if said received a dose but unsure how many for the first dose in a series
+*											Make RI11  a string variable
 
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
@@ -98,13 +111,14 @@ if ${TT_SURVEY}==1 { // if part of the TT/Women's survey, replace day with 1 if 
 	}
 }
 
-if "$DATE_OF_BIRTH_DAY"=="" & ${HH_DOB}==1 { //if the date of birth was provided during HH survey but no variable for Day, use 1 as day value
-	replace dob_DAY=1 if !missing(dob_MONTH) & !missing(dob_YEAR) & missing(dob_DAY) 
-}
-
 tab dob_DAY,m
 
-gen dob_for_eligibility=mdy(dob_MONTH, dob_DAY, dob_YEAR)
+* Instead of using the min of the dob dates start by using the RI history dob dates
+gen dob_for_eligibility= .
+capture replace dob_for_eligibility= mdy($CHILD_DOB_CARD_MONTH, $CHILD_DOB_CARD_DAY, $CHILD_DOB_CARD_YEAR) 
+capture replace dob_for_eligibility= mdy($CHILD_DOB_HIST_MONTH, $CHILD_DOB_HIST_DAY, $CHILD_DOB_HIST_YEAR) if missing(dob_for_eligibility)
+capture replace dob_for_eligibility = mdy(dob_MONTH, dob_DAY, dob_YEAR) if missing(dob_for_eligibility)
+
 format %td dob_for_eligibility
 label variable dob_for_eligibility "DOB to determine which survey people are eligible for"
 
@@ -227,7 +241,7 @@ clonevar HH14=$HH_ID
 ****************************************************************
 * Create VCQI Variable HH12
 gen HH12=1 
-	if inlist(${MICS_NUM},5,4) {
+	if inlist(${MICS_NUM},6,5,4) {
 		replace HH12=2 if inlist(${OVERALL_DISPOSITION},5,6,7) //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found
 	}
 	else if inlist(${MICS_NUM},3) {
@@ -241,7 +255,7 @@ label value HH12 yesno
 ****************************************************************
 * Create VCQI Variable HH18
 gen HH18=. 
-	if inlist(${MICS_NUM},5,4) {
+	if inlist(${MICS_NUM},6,5,4) {
 		replace HH18=1 if inlist(${OVERALL_DISPOSITION},1) //Completed
 		replace HH18=3 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no competent respondent at home, Entire household absent for extended time
 																	 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
@@ -442,7 +456,7 @@ clonevar HM30=age_months
 	
 * Create variable for HM19 overall disposition code 
 gen HM19=.
-	if inlist(${MICS_NUM},5,4) {
+	if inlist(${MICS_NUM},6,5,4) {
 		replace HM19=4 if inlist(${OVERALL_DISPOSITION},1) //Completed
 		replace HM19=1 if inlist(${OVERALL_DISPOSITION},2,3,5,6,7,96,.) //No member home/ no competent respondent at home, Entire household absent for extended time
 																	 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
@@ -483,7 +497,7 @@ foreach v in HM33 HM38 HM43 {
 * NOTE: Keep as missing if there is no value in the survey specific disposition
 	capture confirm variable ${`=upper("`s'")'_DISPOSITION}
 	if !_rc {
-		if inlist(${MICS_NUM},5,4) {
+		if inlist(${MICS_NUM},6,5,4) {
 			replace `v'=4 if inlist(${`=upper("`s'")'_DISPOSITION},1) //Completed
 			replace `v'=2 if inlist(${`=upper("`s'")'_DISPOSITION},2,4,5,6,7,96) //No member home/ no competent respondent at home, Entire household absent for extended time
 																		 //Dwelling vacant/address not a dwelling, dwelling destroyed, dwelling not found, Other
@@ -537,10 +551,12 @@ else {
 clonevar urban_cluster=$URBAN_CLUSTER
 
 * Create psweight_1year variable
-clonevar psweight_1year=$PSWEIGHT_1YEAR
+if "$PSWEIGHT_1YEAR" == "" gen psweight_1year = 1
+else clonevar psweight_1year=$PSWEIGHT_1YEAR
 
 * Create psweight_sia variable
-clonevar psweight_sia=$PSWEIGHT_SIA
+if "$PSWEIGHT_SIA" == "" gen psweight_sia = 1
+else clonevar psweight_sia = $PSWEIGHT_SIA
 
 save, replace
 *******************************************************************************************
@@ -582,21 +598,41 @@ if $RI_SURVEY==1 {
 
 	* Create variable RI11 Household ID
 	clonevar RI11=HH14
+	* change to a string variable if needed
+	capture tostring RI11, replace
 
 	* Create RI12 Individual Number
 	clonevar RI12=${RI_LINE}
-
+	
 	* Create RI26 Vaccination Card ever received?
 	if "$CARD_EVER_RECEIVED"!="" & "$CARD_EVER_RECEIVED"!="$CARD_SEEN" {
+		if ${MICS_NUM} == 6 {
+			* In MICS6 there are additional questions about the National Child Immunization Record and other documents
+			* This code considers either as card document.
+			
+			* There is a variable that shows has card, ever had card and card seen
+			gen RI26 = $CARD_EVER_RECEIVED 
+			replace RI26 = 1 if inlist($HAS_CARD,1,2,3) 
+			replace RI26 = 1 if inlist($CARD_SEEN,1,2,3)
+			replace RI26 = 99 if RI26 == 8
+			replace RI26 = . if !inlist(RI26,1,2,99)
+
+			label var RI26 "Card or Other document ever received"
+			
+			gen RI27 = inlist($CARD_SEEN,1,2,3) if RI26 == 1
+			replace RI27 = 2 if $CARD_SEEN == 4 & RI26 == 1
+			label var RI27 "Card or other document seen"
+			
+		}
 		if inlist(${MICS_NUM},5,4) {
 			clonevar RI26=${CARD_EVER_RECEIVED}
 			
 			* Replace RI26=1 if ${CARD_SEEN} equals 1 or 2 as these are not included in the ${CARD_EVER_RECEIVED} variable
 			replace RI26=1 if inlist(${CARD_SEEN},1,2)
 			
-			* Replace the idk value to correspond to VCQI
+		* Replace the idk value to correspond to VCQI
 			replace RI26=99 if RI26==8
-			
+				
 			* Replace all other values with missing
 			replace RI26=. if !inlist(RI26,1,2,99)
 		}
@@ -609,22 +645,23 @@ if $RI_SURVEY==1 {
 		replace RI26=1 if inlist(${CARD_SEEN},1,2)
 		
 		* Replace RI26=2 (No) if $CARD_SEEN==3 (No)
-		replace RI26=2 if ${CARD_SEEN}==3
 
+		replace RI26=2 if ${CARD_SEEN}==3
 		* Replace the idk value to correspond to VCQI
 		replace RI26=99 if ${CARD_SEEN}==8
-		
+			
 		* Replace all other values to missing
 		replace RI26=. if !inlist(RI26,1,2,99)
-		
+			
 	}
+
 	
 	*label to correspond to VCQI
 	label define yesno 1 "Yes" 2 "No" 99 "Do Not Know", replace
 	label value RI26 yesno
 
-	* Create RI27 Vaccination Card seen
-	clonevar RI27=${CARD_SEEN}
+	* Create RI27 Vaccination Card seen if not version 6
+	if ${MICS_NUM} != 6 clonevar RI27=${CARD_SEEN}
 	
 	* Replace the idk and other values with missing "." 
 	replace RI27=. if !inlist(RI27,1,2) //respondents with value 3 No card, 
@@ -678,12 +715,6 @@ if $RI_SURVEY==1 {
 		}
 	}
 
-	* If no card dob data provided, replace with history dob information 
-	foreach d in m d y {
-		replace dob_date_card_`d'=dob_date_history_`d' if missing(dob_date_card_`d') & !missing(dob_date_history_`d')
-		
-	}
-
 	* Create all card and register variables
 	local s card
 
@@ -725,13 +756,12 @@ if $RI_SURVEY==1 {
 		}
 	}
 
-
 	* Create variable for dose history
 	foreach d in `=upper("${RI_LIST}")' {
 		if "1"==substr("`d'",-1,1) {
 			local i 1
 			local g `=substr("`d'",1,length("`d'")-1)'
-			}
+		}
 		else if "2"==substr("`d'",-1,1) {
 			local i 2
 			local g `=substr("`d'",1,length("`d'")-1)'
@@ -758,23 +788,45 @@ if $RI_SURVEY==1 {
 		replace `=lower("`d'")'_history=2 if ${`g'_HIST}==2
 		replace `=lower("`d'")'_history=99 if ${`g'_HIST}==8
 		replace `=lower("`d'")'_history=. if ${`g'_HIST}==9 
-
+		
 		* Replace history
-		replace `=lower("`d'")'_history=1 if inlist(`=lower("`d'")'_date_card_m,66,6666) | inlist(`=lower("`d'")'_date_card_d,66,6666) |inlist(`=lower("`d'")'_date_card_y,66,6666)
+		replace `=lower("`d'")'_history=1 if `=lower("`d'")'_date_card_d == 66
+		
+		* We want to set history to NO if have a value of 00 in day
+ 		replace `=lower("`d'")'_history=2 if `=lower("`d'")'_date_card_d == 0
 			
 		if "0"==substr("`d'",-1,1) { // if the dose is at birth, need to look at the specific at birth variable for history
 
 			* Replace the history for at birth doses
 			replace `=lower("`d'")'_history=1 if ${`g'_HIST}==1  
+			
+			* For MICS6 the questionnaire has changed for hepb0 and instead of it being two separate questions it is now combined into 1. We need to account for the NO value of 3
+			* We will keep the NO value for 2 - received after 24 hrs.
+			if $MICS_NUM == 6 & "`=lower("`d'")'" == "hepb0" replace `=lower("`d'")'_history = 2 if ${`g'_HIST}==3 	
+			
+			* If it is opv0 we need to create a variable with the number of doses received
+			if "`=lower("`d'")'" == "opv0" {
+				local g opv
+				gen num_opv = ${OPV_DOSE_NUM} 
+				replace num_opv = num_opv -1 if ${OPV0_HIST}==1  & ${`=upper("`g'")'_DOSE_NUM} != 8
+				
+				global `=upper("`g'")'_DOSE_NUM num_`g'
+			}
 		}
 		else {
 				* Replace the history for multiple doses
-			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & (${`=upper("`g'")'_DOSE_NUM} >= `i') & !missing(${`=upper("`g'")'_DOSE_NUM})  
+				* Changed this to only replace if the number is greater than or equal to dose number and less than or equal to 7. The value of 8 and 9 are no response or do not know.
+			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & ${`=upper("`g'")'_DOSE_NUM} >= `i' & ${`=upper("`g'")'_DOSE_NUM} <= 7 //!missing(${`=upper("`g'")'_DOSE_NUM})  
+		}
+
+		* Now we want to replace the first dose to be yes if said received but unsure how many
+		if "1"==substr("`d'",-1,1) { 
+			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & ${`=upper("`g'")'_DOSE_NUM} == 8
 		}
 		
 		* Replace all other values with missing
 		replace `=lower("`d'")'_history=. if !inlist(`=lower("`d'")'_history,1,2,99)  //Anything not 1 (Yes) or 2 (No) DNK (99) set to missing 
-
+		
 		
 	}
 
@@ -791,8 +843,6 @@ if $RI_SURVEY==1 {
 			}
 		}
 	}
-			
-	
 	
 	* Replace dates with missing values if set to 0 |44 |4444 |66 |6666
 	local s card

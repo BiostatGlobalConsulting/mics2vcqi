@@ -21,6 +21,12 @@ cd "$OUTPUT_FOLDER"
 * Save as CM dataset
 save MICS_${MICS_NUM}_to_VCQI_CM, replace 
 
+* Check to see if the province_id is missing, if so populate based on state and cluster
+capture assert !missing(province_id)
+if _rc != 0 {
+	sort HH01 HH03 province_id
+	bysort HH01 HH03: replace province_id = province_id[1]
+}
 ****************************************************************
 
 * Create expected_hh_to_visit VCQI variable
