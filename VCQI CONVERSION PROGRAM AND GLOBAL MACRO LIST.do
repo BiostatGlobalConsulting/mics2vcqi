@@ -339,6 +339,21 @@ global MENA_HIST 					IM27A
 * e.g. religion, education etc
 global RI_ADDITIONAL_VARS
 
+* If you would like to pass through campaign doses to be used as additional history values set the globals below
+* Put all dose names in CAMPAIGN_DOSES
+* If you do not wish to include these as history please leave the global blank
+global CAMPAIGN_DOSES MENA OPV MEAS YF
+
+* For each dose listed in global CAMPAIGN_DOSES you need to create another global <DOSE>_CAMPAIGN that contains the campaign variable. This may contain more than 1 variable name if there are more than 1 variable related to that dose and campaign. For example in MICS6  there are two sets of variables regarding campaign, IM8* and IM12*.
+
+* Make sure the dose names match those provided above
+* If the dose is a multi dose just provide the dose base like opv or meas
+global MENA_CAMPAIGN	IM8C IM12C
+global OPV_CAMPAIGN		IM8A IM12A
+global MEAS_CAMPAIGN	IM8D IM12D
+global YF_CAMPAIGN		IM8B IM8E IM12B
+
+
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************
@@ -361,7 +376,7 @@ global RIHC_DATE_YEAR 			hf8y
 * Child Date of Birth per Health Center Records/Register
 global CHILD_DOB_REG_MONTH 		hf12m 
 global CHILD_DOB_REG_DAY 		hf12d
-global CHILD_DOB_REG_YEAR 		hf12y
+global CHILD_DOB_REG_YEAR 		hf12y 
 
 * Populate the below doses with the proper variable name per HEALTH CENTER/REGISTER DATA
 * NOTE: If the vaccine is not part of the survey, leave it bank
