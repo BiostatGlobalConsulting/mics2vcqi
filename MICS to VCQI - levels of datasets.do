@@ -27,12 +27,12 @@ save level1name, replace
 
 * Create level2names dataset
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
-bysort $PROVINCE_ID: keep if _n == 1
+bysort $PROVINCE_ID: keep if _n == 1 & !missing($PROVINCE_ID)
 keep $PROVINCE_ID
 sort $PROVINCE_ID
 rename $PROVINCE_ID level2id
-gen level2name = ""
 decode level2id, generate(level2name)
+replace level2name = proper(level2name)
 label value level2id
 save level2names, replace
 
@@ -54,6 +54,7 @@ if wordcount("$LEVEL_3_ID") > 1 {
 	forvalue i = 1/`=_N' {
 		replace level3name="`:label l3id `=level3id[`i']''" in `i'
 	}
+	replace level3name = proper(level3name)
 	bysort level3id: keep if _n==1
 	sort level3id
 	keep level3*
@@ -66,8 +67,8 @@ else {
 	keep $LEVEL_3_ID 
 	sort $LEVEL_3_ID
 	rename $LEVEL_3_ID level3id
-	gen level3name = ""
 	decode level3id, generate(level3name)
+	replace level3name = proper(level3name)
 	label value level3id 
 	save level3names, replace
 }

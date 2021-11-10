@@ -34,6 +34,7 @@ if $RI_SURVEY==1 {
 	local dlist
 	foreach v in `=lower("${RI_LIST}")' {
 		local dlist `dlist' `v'_date_card_* `v'_history `v'_tick_card dob_date_card_* dob_date_hist* 
+		if "`v'" == "hepb0" local dlist `dlist' `v'_history_24hrs `v'_note
 	}
 	
 	* Keep bcg_scar_history if bcg is part of the ri dose list

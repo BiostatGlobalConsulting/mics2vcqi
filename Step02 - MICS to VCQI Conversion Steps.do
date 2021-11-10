@@ -103,10 +103,14 @@ if $RI_SURVEY==1 {
 			di as error "Global macro `v' must be defined to complete the RI analysis"
 		}
 	}
-		
-	foreach v in RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN ///
+	
+	* If it is MICS6 there is a new variable tha we want to use.
+	if $MICS_NUM == 6 local has_card HAS_CARD
+	foreach v in RI_DISPOSITION CARD_EVER_RECEIVED CARD_SEEN `has_card' ///
 				  RI_DATE_MONTH RI_DATE_DAY RI_DATE_YEAR CHILD_DOB_HIST_MONTH CHILD_DOB_HIST_DAY ///
 				  CHILD_DOB_HIST_YEAR RI_LINE {
+				  	
+					
 			  
 		if "$`v'"=="" {
 			di as error "Global macro `v' must be defined to complete the RI analysis"
@@ -250,6 +254,29 @@ if $RI_SURVEY==1 {
 			}
 		}
 		
+	}
+	
+	* Now we want to check the CAMPAIGN VARIABLES if they are populated
+	set trace on
+	foreach v in $CAMPAIGN_DOSES {
+		local v `=upper("`v'")'
+		if "${`v'_CAMPAIGN}" == "" {
+			di as error "Global macro `v'_CAMPAIGN must be defined to complete the RI analysis if the dose is listed in global CAMPAIGN_DOSES"
+		}
+		else {
+			local `v' 
+			foreach d in ${`v'_CAMPAIGN} {
+				capture confirm variable `d'
+				if !_rc {
+					local `v' ``v'' MICS_${MICS_NUM}_`d'
+				}
+				else {
+					di as error ///
+					"Variable `d' provided in global macro `v'_CAMPAIGN does not exist" //Let the user know if a variable does not exist in dataset
+				}
+			}
+			global `v'_CAMPAIGN ``v''
+		}
 	}
 
 					
