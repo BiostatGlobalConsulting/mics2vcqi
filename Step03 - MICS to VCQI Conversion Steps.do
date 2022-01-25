@@ -23,6 +23,9 @@ Stata version:    14.0
 * 2021-11-09	1.02	MK Trimner			Set hepb0 to yes if said received it after 24 hours for MICS6
 *											Wipe out HEPB0 card date if received the same day or after penta1
 *											Created RI24 and RI25 variables
+* 2022-01-24	1.03	MK Trimner			Set RI27 to 2 if said ever received a card but did not answer if it was seen.
+* 		MK Trimner							Made HH04 a string variable
+
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
 *********************************************************************************
@@ -236,6 +239,8 @@ label variable HH04 "Cluster name"
 * Remove the value label from HH03
 label value HH03
 
+* We want to make sure the HH04 is a string. 
+capture tostring HH04, replace
 ****************************************************************
 * Create variable for HH14 household number
 clonevar HH14=$HH_ID
@@ -624,6 +629,7 @@ if $RI_SURVEY==1 {
 			
 			gen RI27 = inlist($CARD_SEEN,1,2,3) if RI26 == 1
 			replace RI27 = 2 if $CARD_SEEN == 4 & RI26 == 1
+			replace RI27 = 2 if missing(RI27) & RI26 == 1
 			label var RI27 "Card or other document seen"
 			
 		}
