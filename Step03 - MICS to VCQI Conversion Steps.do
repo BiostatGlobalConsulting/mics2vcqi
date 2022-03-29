@@ -25,6 +25,7 @@ Stata version:    14.0
 *											Created RI24 and RI25 variables
 * 2022-01-24	1.03	MK Trimner			Set RI27 to 2 if said ever received a card but did not answer if it was seen.
 * 		MK Trimner							Made HH04 a string variable
+* 2022-03-29	1.04	MK Trimner			For CARD SEEN replaced 8 (dnk) with a 9 that is actually in the datasets.
 
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
@@ -622,7 +623,7 @@ if $RI_SURVEY==1 {
 			gen RI26 = $CARD_EVER_RECEIVED 
 			replace RI26 = 1 if inlist($HAS_CARD,1,2,3) 
 			replace RI26 = 1 if inlist($CARD_SEEN,1,2,3)
-			replace RI26 = 99 if RI26 == 8
+			replace RI26 = 99 if RI26 == 9
 			replace RI26 = . if !inlist(RI26,1,2,99)
 
 			label var RI26 "Card or Other document ever received"
@@ -640,7 +641,7 @@ if $RI_SURVEY==1 {
 			replace RI26=1 if inlist(${CARD_SEEN},1,2)
 			
 		* Replace the idk value to correspond to VCQI
-			replace RI26=99 if RI26==8
+			replace RI26=99 if RI26==9
 				
 			* Replace all other values with missing
 			replace RI26=. if !inlist(RI26,1,2,99)
@@ -657,7 +658,7 @@ if $RI_SURVEY==1 {
 
 		replace RI26=2 if ${CARD_SEEN}==3
 		* Replace the idk value to correspond to VCQI
-		replace RI26=99 if ${CARD_SEEN}==8
+		replace RI26=99 if ${CARD_SEEN}==9
 			
 		* Replace all other values to missing
 		replace RI26=. if !inlist(RI26,1,2,99)
