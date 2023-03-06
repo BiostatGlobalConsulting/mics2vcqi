@@ -26,6 +26,7 @@ Stata version:    14.0
 * 2022-01-24	1.03	MK Trimner			Set RI27 to 2 if said ever received a card but did not answer if it was seen.
 * 		MK Trimner							Made HH04 a string variable
 * 2022-03-29	1.04	MK Trimner			For CARD SEEN replaced 8 (dnk) with a 9 that is actually in the datasets.
+* 2023-03-05	1.05	MK Trimner			changed history for first dose to be set to 1 regardless of the number of doses if said yes received.
 
 use "${OUTPUT_FOLDER}/MICS_${MICS_NUM}_combined_dataset", clear
 
@@ -795,8 +796,6 @@ if $RI_SURVEY==1 {
 		gen `=lower("`d'")'_history=0
 		label variable `=lower("`d'")'_history "`d' - history"
 		label value `=lower("`d'")'_history yesno
-
-
 		
 		* Replace to a "no" or "do not know value" or "missing" accordingly
 		replace `=lower("`d'")'_history=2 if ${`g'_HIST}==2
@@ -842,7 +841,7 @@ if $RI_SURVEY==1 {
 
 		* Now we want to replace the first dose to be yes if said received but unsure how many
 		if "1"==substr("`d'",-1,1) { 
-			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 & ${`=upper("`g'")'_DOSE_NUM} == 8
+			replace `=lower("`d'")'_history=1 if ${`=upper("`g'")'_HIST}==1 //& ${`=upper("`g'")'_DOSE_NUM} == 8
 		}
 		
 		* Replace all other values with missing
